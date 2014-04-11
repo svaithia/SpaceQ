@@ -1,0 +1,11 @@
+{
+    "name": "where_in_earth",
+    "version": "0.0.1",
+    "description": "App",
+    "dependencies": {
+        "express": "latest",
+        "socket.io": "latest",
+        "angularjs": "latest"
+    },
+    "author": "developer"
+}
