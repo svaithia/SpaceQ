@@ -3,9 +3,11 @@
     "version": "0.0.1",
     "description": "App",
     "dependencies": {
-        "express": "latest",
-        "socket.io": "latest",
-        "angularjs": "latest"
+        "express": "4.0.0",
+        "socket.io": "0.9.16",
+        "angularjs": "0.0.1",
+	"mongodb": "1.4.0"
+
     },
     "author": "developer"
 }
