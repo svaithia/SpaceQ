@@ -10,3 +10,7 @@
  app.listen(port, function() {
    console.log("Listening on " + port);
  });
+
+  app.get("/signin", function(req, res) {
+    res.sendfile('public/signin.html')
+ });
