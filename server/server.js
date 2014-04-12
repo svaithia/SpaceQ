@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 //require mongoose node module
 var mongoose = require('mongoose');
-var player = require('model/player_class');
+var player = require('./model/player_class');
 
 //connect to local mongodb database
 
