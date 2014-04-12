@@ -1,43 +1,34 @@
- var express = require("express");
- var app = express();
- var mongoose = require('mongoose');
+var express = require("express");
+var app = express();
+//require mongoose node module
+var mongoose = require('mongoose');
 
- var port = process.env.PORT || 5000;
- 
- // configuration ============
- app.configure(function() {
-	app.use(express.static(__dirname + '/public')); 		// set the static files location /public/img will be /img for users
-	app.use(express.logger('dev')); 						// log every request to the console
-	app.use(express.bodyParser()); 							// pull information from html in POST
-	app.use(express.methodOverride()); 						// simulate DELETE and PUT
+//connect to local mongodb database
+var db = mongoose.connect('mongodb://admin:admin@dbh75.mongolab.com:27757/nasahackathon');
+
+//attach lister to connected event
+mongoose.connection.once('connected', function() {
+	console.log("Connected to database")
 });
 
- // define model ================================================================
-var Todo = mongoose.model('Todo', {
-	text : String,
-	done : Boolean
+/* serves main page */
+app.get("/", function(req, res) {
+    res.sendfile('public/signin.html')
+});
+ 
+var port = process.env.PORT || 5000;
+app.listen(port, function() {
+    console.log("Listening on " + port);
 });
 
-// routes ======================================================================
-
-	// api ---------------------------------------------------------------------
-	// get all todos
-	app.get('/', function(req, res){
-		res.sendfile('client/public/index.html')
-	});
-
-	 var port = process.env.PORT || 5000;
-	 app.listen(port, function() {
-	   console.log("Listening on " + port);
-	 });
-
- /* serves main page */
- app.get("/", function(req, res) {
-    res.sendfile('client/public/index.html')
- });
- 
-
-
-  app.get("/signin", function(req, res) {
-    res.sendfile('client/public/signin.html')
- });
+function createUserIfNoneExists(player_id, username) {
+	db.players.findAndModify({
+		query: { id: player_id },
+		update: {
+			$setOnInsert: { id: player_id, name: username, cumulativeScore: 0 }
+		},
+		new: true,
+		upsert: true
+	})
+	console.log("player added to database");
+}
