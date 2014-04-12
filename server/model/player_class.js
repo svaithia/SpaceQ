@@ -7,7 +7,7 @@ module.exports = {
 		this.updateCumulativeScore = function(incrementScore) { this.cumulativeScore += incrementScore; }
 
 		this.createUserIfNoneExists = function(){
-			var db = require('database').connect;
+			var db = require('../database').connect;
 			db.players.findAndModify({
 			query: { id: player_id },
 			update: {
