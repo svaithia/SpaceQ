@@ -9,6 +9,10 @@ var db = require('./database.js');
 //uncomment following line to see the twenty random questions in console
 // db.getQuestions(function(rightAnswersJsonArray, wrongAnswersJsonArray){}); 
 
+//connect to local mongodb database
+
+//attach lister to connected event
+
 
 
 var port = process.env.PORT || 5000;
