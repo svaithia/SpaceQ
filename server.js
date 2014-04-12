@@ -3,14 +3,10 @@
  
  /* serves main page */
  app.get("/", function(req, res) {
-    res.sendfile('public/index.html')
+    res.sendfile('public/signin.html')
  });
  
  var port = process.env.PORT || 5000;
  app.listen(port, function() {
    console.log("Listening on " + port);
- });
-
-  app.get("/signin", function(req, res) {
-    res.sendfile('public/signin.html')
  });
