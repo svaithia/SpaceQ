@@ -1,16 +1,12 @@
-exports.connect = function(callbackWithConnection){
-	console.log('connect to database');
-	// var mongoose = require('mongoose');
-	// var db = mongoose.connect('mongodb://admin:admin@dbh75.mongolab.com:27757/nasahackathon');
-	// return db;
-
-	/*var MongoClient = require('mongodb').MongoClient
+exports.connect = function(callback){
+	var MongoClient = require('mongodb').MongoClient
 	MongoClient.connect(databaseURL + databaseName, function(err, db){
-
-	});*/
+		if (err) throw err;
+		callback(db);
+	});
 }
 
-exports.getQuestions = function(callback){ //pass in a callback with two arrays, one with 5 questions and one with 15 questions
+exports.getQuestions = function(callback){ //pass in a callback with two parameters, one will have 5 questions and one will have 15 questions
 	var MongoClient = require('mongodb').MongoClient
 
 	var min = 1;
@@ -24,7 +20,7 @@ exports.getQuestions = function(callback){ //pass in a callback with two arrays,
 	MongoClient.connect(databaseURL + databaseName, function(err, db){
 	    if (err) throw err;
 
-	    var collection = db.collection(collectionName);
+	    var collection = db.collection(questionsCollection);
 
 			randomIntArray.forEach(function(entry, index) {
 				collection.find({id: entry}).toArray(function(err, items){
@@ -42,10 +38,16 @@ exports.getQuestions = function(callback){ //pass in a callback with two arrays,
 }	//end of getTwentyRandomQuestions()
 
 
+exports.Player = function(){
+	this.createUserIfNoneExists = function(){
+		console.log('create user');
+	}//end of createUserIfNoneExists
+}//end of Player object
 
 var databaseURL = 'mongodb://admin:admin@dbh75.mongolab.com:27757/';
 var databaseName = 'nasahackathon';
-var collectionName = 'questions';
+var questionsCollection = 'questions';
+var playersCollection = 'players';
 
 function getRandomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
