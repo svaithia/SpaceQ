@@ -3,6 +3,7 @@ var app = express();
 //require mongoose node module
 var mongoose = require('mongoose');
 var player = require('./model/player_class');
+var path = require('path');
 
 //connect to local mongodb database
 
@@ -16,10 +17,24 @@ app.listen(port, function() {
 });
 
 
-// /* serves main page */
-// app.get("/", function(req, res) {
-//     res.sendfile('../client/views/signin.html')
-// });
+/* serves main page */
+app.get("/", function(req, res) {
+	var filepath = path.resolve('client/views/signin.html');
+    res.sendfile(filepath);
+});
+
+app.get("/api/user/check_user_in_db/:id/:name", function(req, res){
+	var id = req.param('id');
+	var name = req.param('name');
+	
+	var player = require('./model/player_class'); 
+	var Player = new player.Player(id, name);
+	console.log(player)
+	player.createUserIfNoneExists;
+	res.send(true);
+
+});
+
  
 // app.get("/createUserIfNoneExist", function(req, res) {
 
