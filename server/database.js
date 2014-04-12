@@ -10,9 +10,8 @@ exports.connect = function(callbackWithConnection){
 	});*/
 }
 
-exports.getTwentyRandomQuestions = function(callbackWithJson){
+exports.getQuestions = function(callback){ //pass in a callback with two arrays, one with 5 questions and one with 15 questions
 	var MongoClient = require('mongodb').MongoClient
-
 
 	var min = 1;
 	var max = 714; //number of entries in the database
@@ -32,7 +31,10 @@ exports.getTwentyRandomQuestions = function(callbackWithJson){
 				    console.log(items[0]);
 				    results.push(items[0]);
 				    if(index == 19){
-							callbackWithJson(results);
+
+							var rightAnswers = results.splice(0, 5);
+							var wrongAnswers = results.splice(5, 20);
+							callback(rightAnswers, wrongAnswers);
 				    }
 				});
 			});

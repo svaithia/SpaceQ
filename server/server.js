@@ -6,7 +6,8 @@ var player = require('./model/player_class');
 var path = require('path');
 
 var db = require('./database.js');
-// db.getTwentyRandomQuestions(function(){}); //uncomment this line to see the twenty random questions in console
+//uncomment following line to see the twenty random questions in console
+// db.getQuestions(function(rightAnswersJsonArray, wrongAnswersJsonArray){}); 
 
 //connect to local mongodb database
 
