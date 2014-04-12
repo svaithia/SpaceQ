@@ -1,13 +1,13 @@
 {
-    "name": "where_in_earth",
-    "version": "0.0.1",
-    "description": "App",
-    "dependencies": {
-        "express": "4.0.0",
-        "socket.io": "0.9.16",
-        "angularjs": "0.0.1",
-	"mongodb": "1.4.0"
-
-    },
-    "author": "developer"
+  "name": "where_in_earth",
+  "version": "0.0.1",
+  "description": "App",
+  "dependencies": {
+    "express": "4.0.0",
+    "socket.io": "0.9.16",
+    "angularjs": "0.0.1",
+    "mongodb": "1.4.0",
+    "mongoose": "~3.8.8"
+  },
+  "author": "developer"
 }
