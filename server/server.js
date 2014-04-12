@@ -9,12 +9,6 @@ var db = require('./database.js');
 //uncomment following line to see the twenty random questions in console
 // db.getQuestions(function(rightAnswersJsonArray, wrongAnswersJsonArray){}); 
 
-//connect to local mongodb database
-
-//attach lister to connected event
-
-
-
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
     console.log("Listening on " + port);
@@ -34,8 +28,10 @@ app.get("/api/user/check_user_in_db/:id/:name", function(req, res){
 	var player = require('./model/player_class'); 
 	var Player = new player.Player(id, name);
 	console.log(player)
-	player.createUserIfNoneExists;
-	res.send(true);
+	console.log(id + ' ' + name);
+	res.writeHeader(200, {"Content-Type": "text/plain"});
+	res.end(' Successfully. Message from server. : ' + id + ' ' + name);
+
 
 });
 

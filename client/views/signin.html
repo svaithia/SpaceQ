@@ -1,6 +1,6 @@
 <html>
 <head>
-  <script src="../server.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body>
 <div id="fb-root"></div>
@@ -13,6 +13,9 @@
     xfbml      : true  // parse XFBML
   });
 
+   
+ 
+
   // Here we subscribe to the auth.authResponseChange JavaScript event. This event is fired
   // for any authentication related change, such as login, logout or session refresh. This means that
   // whenever someone who was previously logged out tries to log in again, the correct case below 
@@ -23,7 +26,28 @@
       // The response object is returned with a status field that lets the app know the current
       // login status of the person. In this case, we're handling the situation where they 
       // have logged in to the app.
-      createUserIfNoneExists(response.id, response.name);
+      // createUserIfNoneExists(response.id, response.name);
+
+ // $.ajax({
+ //      type: "GET",
+ //      url: "/api/user/check_user_in_db/" + response.id + "/" + response.name , 
+ //      contentType: "application/json; charset=utf-8",
+ //      dataType: "json",
+ //      success: function(msg) {
+ //        console.log(response.id, '/', response.name, msg);
+ //      }
+ //  });
+      FB.api('/me', function(response) {
+        $.get(
+            "/api/user/check_user_in_db/" + response.id + "/" + response.username,
+            "{key:value}",
+            function(data) { console.log(data); },
+            "html"
+          );  
+       });
+
+
+
     } else if (response.status === 'not_authorized') {
       // In this case, the person is logged into Facebook, but not into the app, so we call
       // FB.login() to prompt them to do so. 
