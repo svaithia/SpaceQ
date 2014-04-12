@@ -5,6 +5,9 @@ var mongoose = require('mongoose');
 var player = require('./model/player_class');
 var path = require('path');
 
+var db = require('./database.js');
+// db.getTwentyRandomQuestions(function(){}); //uncomment this line to see the twenty random questions in console
+
 //connect to local mongodb database
 
 //attach lister to connected event
