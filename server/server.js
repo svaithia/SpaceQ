@@ -20,6 +20,7 @@ app.listen(port, function() {
 /* serves main page */
 app.get("/", function(req, res) {
 	var filepath = path.resolve('client/views/signin.html');
+
     res.sendfile(filepath);
 });
 
@@ -30,8 +31,10 @@ app.get("/api/user/check_user_in_db/:id/:name", function(req, res){
 	var player = require('./model/player_class'); 
 	var Player = new player.Player(id, name);
 	console.log(player)
-	player.createUserIfNoneExists;
-	res.send(true);
+	console.log(id + ' ' + name);
+	res.writeHeader(200, {"Content-Type": "text/plain"});
+	res.end(' Successfully. Message from server. : ' + id + ' ' + name);
+
 
 });
 
