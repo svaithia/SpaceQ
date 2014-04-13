@@ -31,13 +31,24 @@ app.get("/api/user/check_user_in_db/:id/:name", function(req, res){
 	
 	var player = require('./model/player_class'); 
 	var Player = new player.Player(id, name);
+	Player.createUserIfNoneExists();
+
 	console.log(player)
 	console.log(id + ' ' + name);
 	res.writeHeader(200, {"Content-Type": "text/plain"});
-	res.end(' Successfully. Message from server. : ' + id + ' ' + name);
+	res.end(' Success message from server. : ' + id + ' ' + name);
 
 
 });
+
+// app.get('/hello', function(req,res){
+// 	var player = require('./model/player_class'); 
+// 	var Player = new player.Player('sfd', 'name');
+// 	Player.a();
+
+// 	res.writeHeader(200, {"Content-Type": "text/plain"});
+// 	res.end(' Successfully message from server');
+// });
 
  
 // app.get("/createUserIfNoneExist", function(req, res) {

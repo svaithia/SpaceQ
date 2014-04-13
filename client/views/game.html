@@ -1,0 +1,86 @@
+<html>
+<head>
+<link href="style.css" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js" type="text/javascript"></script>
+  <script src="../js/app.js" type="text/javascript"></script>
+  <script src="../js/controller.js" type="text/javascript"></script>
+<script>
+function updateQuestionAnswer(question, answer){
+	$('#question').attr('src', 'http://eoimages.gsfc.nasa.gov/images/imagerecords/83000/83491/mississippi_tmo_2014100.jpg');
+	$('#answerA').html(answer[0]);
+	$('#answerB').html(answer[1]);
+	$('#answerC').html(answer[2]);
+	$('#answerD').html(answer[3]);
+}
+
+function updateTimer(playerA, playerB){
+	$('#timer_a').attr('height',playerA + '%');
+	$('#timer_b').attr('height',playerB + '%');
+}
+
+$('#answerA').click(function(){
+
+});
+
+$('#answerB').click(function(){
+	
+});
+
+$('#answerC').click(function(){
+	
+});
+
+$('#answerD').click(function(){
+	
+});
+
+//updateQuestionAnswer('http://eoimages.gsfc.nasa.gov/images/imagerecords/83000/83491/mississippi_tmo_2014100.jpg', ['a','b','c','d']);
+
+</script>
+</head>
+<body>
+	<div class="container">
+		<div class="heading">
+			<h1 class="title">SpaceQ</h1>
+		</div>
+		<div class="main_game">
+			<div class="left">
+				<div class="timer">
+					<div id="timer_a"></div>
+				</div>
+				<div class="player_container">
+					<div class="player_name">Player1</div>
+				</div>
+			</div>
+
+			<div class="middle">
+				<div class="question"><img id="question" src="http://eoimages.gsfc.nasa.gov/images/imagerecords/83000/83491/mississippi_tmo_2014100.jpg"/></div>
+
+				<div class="answer_container">
+					<div class="answer_row">
+						<div id="answerA" class="answer">ASfdsfdsfsdfsd</div>
+						<div id="answerB" class="answer">Bdsfdsfsdfsd</div>
+					</div>
+					<div class="answer_row">
+						<div id="answerC" class="answer">ASfdsfdsfsdfsd</div>
+						<div id="answerD" class="answer">Bdsfdsfsdfsd</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="right">
+				<div class="timer">
+					<div id="timer_b"></div>
+				</div>
+
+
+				<div class="player_container">
+					<div class="player_name">Player2</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
