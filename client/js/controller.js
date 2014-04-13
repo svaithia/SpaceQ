@@ -7,21 +7,21 @@ gameApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvider,
 
 		.state('signin', {
 			url: '/',
-			templateUrl: 'client/views/partials/signin.html'
+			templateUrl: 'views/partials/signin.html'
 		})
 
 		// route for playing the game
 		.state('play', {
 			url: '/play',
 			controller: 'GameController',
-			templateUrl: 'partials/game.html'
+			templateUrl: 'views/partials/game.html'
 		})
 
 		// route for after game finish
 		.state('results', {
 			url: '/results',
 			controller: 'ScoreController',
-			templateUrl: 'partials/results.html'
+			templateUrl: 'views/partials/results.html'
 		})
 		
 		.state("otherwise", {
