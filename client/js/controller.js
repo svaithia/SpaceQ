@@ -13,6 +13,9 @@ gameApp.config(function ($routeProvider) {
 var controllers = {};
 controllers.GameController = function ($scope){
     $scope.questions = [];
+    $scope.checkAnswer = function () {
+    	$scope.questions.
+    }
 }
 
 gameApp.controller(controllers);
