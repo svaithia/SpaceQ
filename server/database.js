@@ -55,7 +55,7 @@ function database(){
 		updatePlayerInfo : function(player){
 			this.getDbConnection(function(db){
 				var collection = db.collection(playersCollection);	
-				collection.update({id:player.id}, {id: player.id, name: player.name, cumulativeScore: player.cumulativeScore}, {upsert:true, w: 1}, function(){
+				collection.update({id:player.id}, {id: player.id, username: play.username, name: player.name, cumulativeScore: player.cumulativeScore}, {upsert:true, w: 1}, function(){
 					console.log('player info updated');
 				});
 			});

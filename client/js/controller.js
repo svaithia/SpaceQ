@@ -58,6 +58,8 @@ controllers.GameController = function ($scope, gameFactory){
     	$scope.question = gameFactory.getQuestion();
     }
 
+controllers.GameController = function ($scope){
+    $scope.questions = [];
     $scope.checkAnswer = function () {
     	$scope.questions.
     }
