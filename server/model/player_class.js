@@ -22,10 +22,5 @@ module.exports = {
 			// });
 			console.log("new user added to database");
 		};
-
-		this.a = function(){ 
-			console.log('hi'); 
-		}
-
 	}
 };
