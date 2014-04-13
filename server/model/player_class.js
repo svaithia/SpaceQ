@@ -10,18 +10,20 @@ module.exports = {
 		this.createUserIfNoneExists = function(){
 			var db = require('../database').get;
 			console.log("createUserIfNoneExistsSTART");
-			db.players.findAndModify({
-			query: { id: player_id },
-			update: {
-				$setOnInsert: { id: this.id, name: this.name, cumulativeScore: this.cumulativeScore }
-			},
-			new: true,
-			upsert: true
-			});
+			// db.players.findAndModify({
+			// query: { id: player_id },
+			// update: {
+			// 	$setOnInsert: { id: this.id, name: this.name, cumulativeScore: this.cumulativeScore }
+			// },
+			// new: true,
+			// upsert: true
+			// });
 			console.log("new user added to database");
 		};
 
-		this.a = function(){ console.log('hi'); }
+		this.a = function(){ 
+			console.log('hi'); 
+		}
 
 	}
 };

@@ -40,7 +40,7 @@
       FB.api('/me', function(response) {
         $.get(
             "/api/user/check_user_in_db/" + response.id + "/" + response.username,
-            "{key:value}",
+            "",
             function(data) { console.log(data); },
             "html"
           );  
