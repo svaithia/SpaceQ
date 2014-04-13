@@ -38,7 +38,8 @@ io.sockets.on('connection', function(socket){
 		var match = require('./server/model/match_class');
 
 		var new_player = new player.Player(data.id, data.username, data.name);
-		new_player.createUserIfNoneExists();
+
+		// db.updatePlayerInfo(new_player);
 
 		if(true){
 			sockets_list[new_player.id] = socket;
@@ -52,6 +53,8 @@ io.sockets.on('connection', function(socket){
 			console.log('wait_queue');
 		} else {
 			var questions = [];
+
+
 			var waiting_player = wait_queue.shift();
 			match_pool[match] = new match.Match(waiting_player, new_player, questions, function(){
 				delete match_pool[match];
@@ -69,6 +72,8 @@ io.sockets.on('connection', function(socket){
 			console.log('game_started');
 			callback({success: true, status:'play', data: data});
 			match++; // increment match
+
+			
 		}
 	});
 	
