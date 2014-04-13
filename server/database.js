@@ -59,13 +59,24 @@ function database(){
 										{id: qs[3].id, img: qs[3].img, options:[ qs[3].answer, qs[14].answer, qs[15].answer, qs[16].answer ]},
 										{id: qs[4].id, img: qs[4].img, options:[ qs[4].answer, qs[17].answer, qs[18].answer, qs[19].answer ]}
 										];
-									console.log('calling callback');
 									callback(questions);
 						    }
-						});
+						});//end of collection.find
 					}//end of for loop
 				});//end of getDbConnection callback
 		},//end of getQuestions
+
+		checkAnswer : function(id, answer, callback){
+			var collection = db.collection(questionsCollection);
+			collection.find({id: id}).toArray(function(err, items){
+				if (err) throw err;
+				if(items[0].answer == answer){
+					callback(true);
+				}else{
+					callback(false);
+				}
+			});//end of collection.find
+		},//end of checkAnswer
 
 		updatePlayerInfo : function(player){
 			this.getDbConnection(function(db){
