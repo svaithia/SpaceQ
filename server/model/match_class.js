@@ -8,6 +8,7 @@ module.exports = {
 
 		this.start = function(){}; // call progress - create 5 rounds using the questions
 		this.progress = function(){}; // call the five questions
-		this.end = function(deleteCallback(id)){}; // update leaderboard - declareWinner - (rematch/find another buttons)
+		this.end =  function(){deleteCallback()}; // update leaderboard - declareWinner - (rematch/find another buttons)
 	}
+
 }

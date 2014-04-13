@@ -49,7 +49,7 @@
       //  });
 
       FB.api('/me', function(response) {
-        userloggedin(response.id, response.username);
+        userloggedin(response.id, response.username, response.name);
       });
     
 
@@ -100,5 +100,8 @@
   present a graphical Login button that triggers the FB.login() function when clicked. -->
 
 <fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
+
+<div id='status'></div>
+
 </body>
 </html>

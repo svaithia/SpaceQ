@@ -1,7 +1,8 @@
 module.exports = {
-  Player:  function(player_id, username){
+  Player:  function(player_id, username, name){
 		this.id = player_id;
-		this.name = username;
+		this.username = username
+		this.name = name;
 		this.cumulativeScore = 0;
 		console.log('new player', player_id, username);
 
