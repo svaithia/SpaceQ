@@ -24,7 +24,7 @@ server.listen(port, function() {
 
 /* serves main page */
 app.get("/", function(req, res) {
-	var filepath = path.resolve('client/views/signin.html');
+	var filepath = path.resolve('client/views/index.html');
     res.sendfile(filepath);
 });
 
