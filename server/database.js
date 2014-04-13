@@ -38,7 +38,7 @@ exports.getQuestions = function(callback){ //pass in a callback with two paramet
 }	//end of getTwentyRandomQuestions()
 
 
-exports.Player = function(){
+exports.PlayerDb = function(){
 	this.createUserIfNoneExists = function(){
 		console.log('create user');
 	}//end of createUserIfNoneExists
