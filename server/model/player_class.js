@@ -9,6 +9,7 @@ module.exports = {
 
 		this.createUserIfNoneExists = function(){
 			var db = require('../database').get;
+			console.log(db);
 			console.log("createUserIfNoneExistsSTART");
 			// db.players.findAndModify({
 			// query: { id: player_id },
