@@ -1,0 +1,54 @@
+body {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  background: #faf8ef;
+  color: #776e65;
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px;
+}
+
+#container {
+	position: absolute;
+	top: 40px;
+	bottom: 20px;
+	width: 100%;
+}
+
+#winHeader {
+	font-size: 50px;
+	text-align: center;
+}
+
+#player1Side {
+	float:left;
+	width: 40%;
+	padding-left: 450px;
+}
+
+#player2Side {
+	float:right;
+	width:40%;
+	text-align: right;
+	padding-right: 450px;
+}
+
+.name {
+	font-size: 80px;
+}
+
+.score {
+	font-size: 70px;
+}
+
+.btn-xl {
+    padding: 18px 28px;
+    font-size: 22px;
+    border-radius: 8px;
+}
+
+#playAgain {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100;
+}
