@@ -1,6 +1,8 @@
 <html>
 <head>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/service/main.js"></script>
 </head>
 <body>
 <div id="fb-root"></div>
@@ -37,14 +39,19 @@
  //        console.log(response.id, '/', response.name, msg);
  //      }
  //  });
+      // FB.api('/me', function(response) {
+      //   $.get(
+      //       "/api/user/check_user_in_db/" + response.id + "/" + response.username,
+      //       "",
+      //       function(data) { console.log(data); },
+      //       "html"
+      //     );  
+      //  });
+
       FB.api('/me', function(response) {
-        $.get(
-            "/api/user/check_user_in_db/" + response.id + "/" + response.username,
-            "",
-            function(data) { console.log(data); },
-            "html"
-          );  
-       });
+        userloggedin(response.id, response.username);
+      });
+    
 
 
 

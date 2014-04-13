@@ -1,11 +1,12 @@
-var express = require("express");
-var app = express();
-//require mongoose node module
-var mongoose = require('mongoose');
-var player = require('./model/player_class');
-var path = require('path');
+var express = require("express"),
+	app = express(),
+	mongoose = require('mongoose'),
+	player = require('./model/player_class'),
+	path = require('path'),
+	server = require('http').createServer(app),
+	io = require('socket.io').listen(server),
+	db = require('./database.js');
 
-var db = require('./database.js');
 //uncomment following line to see the twenty random questions in console
 // db.getQuestions(function(rightAnswersJsonArray, wrongAnswersJsonArray){}); 
 
@@ -51,3 +52,12 @@ app.get("/api/user/check_user_in_db/:id/:name", function(req, res){
 
 //     res.sendfile('../client/views/signin.html')
 // });
+
+
+io.sockets.on('connection', function(socket){
+	socket.on('new_player', function(data, callback){
+
+	});
+
+
+});
