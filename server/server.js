@@ -6,8 +6,12 @@ var player = require('./model/player_class');
 var path = require('path');
 
 var db = require('./database.js');
-//uncomment following line to see the twenty random questions in console
+// uncomment following line to see the twenty random questions in console
 // db.getQuestions(function(rightAnswersJsonArray, wrongAnswersJsonArray){}); 
+
+//use following to create a new player/update existing player
+// db.updatePlayerInfo({id:1, name: 'asdf', cumulativeScore: 123});  //NOTE: when testing remember to delete test entries after
+
 
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
