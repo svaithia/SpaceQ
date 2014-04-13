@@ -9,8 +9,10 @@ var express = require("express"),
 
 app.use(express.static(path.join(__dirname, 'client')));
 
-//uncomment following line to see the twenty random questions in console
-// db.getQuestions(function(rightAnswersJsonArray, wrongAnswersJsonArray){}); 
+// uncomment following line to see the twenty random questions in console
+// db.getQuestions(function(questions){
+// 	console.log(questions[0].options);
+// });
 
 var port = process.env.PORT || 5000;
 server.listen(port, function() {
