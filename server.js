@@ -57,9 +57,13 @@ io.sockets.on('connection', function(socket){
 			} else {
 				var questions = [];
 				var waiting_player = wait_queue.shift();
-				match_pool[match] = new match.Match(waiting_player, new_player, questions, function(){
-					delete match_pool[match];
-	 			});
+
+				db.getQuestions(function(questions){ //questions format [{id:id, img:url, options:[option1, option2, option3, option4] X 5]
+					match_pool[match] = new match.Match(waiting_player, new_player, questions, function(){
+						delete match_pool[match];
+		 			});	
+				});
+				
 
 				data = {match_id: match};
 
