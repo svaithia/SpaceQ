@@ -1,41 +1,38 @@
-var gameApp = angular.module('gameApp', ['ui.router']);
+var gameApp = angular.module('gameApp', ['ngRoute', 'angular.css.injector']);
 
-gameApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
-	$urlRouterProvider.otherwise('/');
+gameApp.config(function($routeProvider) {
 
-	$stateProvider
+	$routeProvider
 
-		.state('signin', {
-			url: '/',
+		// route for the home page
+		.when('/', {
+			controller: 'SignInController',
 			templateUrl: 'views/partials/signin.html'
 		})
 
-		.state('lobby', {
-			url: '/lobby',
+		.when('/lobby', {
 			templateUrl: 'views/partials/lobby.html'
 		})
 
 		// route for playing the game
-		.state('play', {
-			url: '/play',
+		.when('/play', {
 			controller: 'GameController',
 			templateUrl: 'views/partials/game.html'
 		})
 
 		// route for after game finish
-		.state('results', {
-			url: '/results',
+		.when('/results', {
 			controller: 'ScoreController',
 			templateUrl: 'views/partials/results.html'
 		})
 		
-		.state("otherwise", {
-			url: '/'
+		.otherwise({
+			redirectTo: '/'
 		});
 
 		// use the HTML5 History API
-		$locationProvider.html5Mode(true);
-}]);
+//		$locationProvider.html5Mode(true);
+});
 
 gameApp.factory('gameFactory', function($http) {
 	var db = require('path/to/database.js');
@@ -61,6 +58,7 @@ controllers.GameController = function ($scope, gameFactory){
 
     function init() {
     	$scope.question = gameFactory.getQuestion();
+    	console.log("hi");
     }
 
 /*    $scope.checkAnswer = function () {
@@ -73,4 +71,26 @@ controllers.ScoreController = function ($scope) {
 	$scope.playerBScore = 0;
 }
 
-gameApp.controller(controllers);
+/*controllers.SignInController = function ($scope, cssInjector) {
+	console.log("SignInController");
+
+	$scope.MyCtrl = function()
+    {
+     	console.log("SignInController");
+        cssInjector.add("css/style.css");
+    }
+
+}*/
+
+gameApp.controller('SignInController', function ($scope, cssInjector) {
+	console.log("SignInController");
+
+	$scope.MyCtrl = function()
+    {
+     	console.log("SignInController");
+        cssInjector.add("css/style.css");
+    }
+
+});
+
+//gameApp.controller(controllers);
