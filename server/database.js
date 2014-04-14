@@ -42,10 +42,8 @@ function database(){
 					var max = 714; //number of entries in the database
 					qs = new Array();
 			    var collection = db.collection(questionsCollection);
-					// var randomIntArray = new Array();
 					var questionsCounter = 0;
 					for(var i = 0; i < 20; i++){
-						// randomIntArray.push(getRandomInt(min, max));
 						var randomId = getRandomInt(min, max);
 						collection.find({id: randomId}).toArray(function(err, items){
 							  if (err) throw err;
