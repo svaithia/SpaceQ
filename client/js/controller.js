@@ -10,6 +10,11 @@ gameApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', fun
 			templateUrl: 'views/partials/signin.html'
 		})
 
+		.state('lobby', {
+			url: '/lobby',
+			templateUrl: 'views/partials/lobby.html'
+		})
+
 		// route for playing the game
 		.state('play', {
 			url: '/play',
