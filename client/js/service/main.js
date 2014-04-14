@@ -20,22 +20,7 @@ function userloggedin(id, username, name){
 socket.on('new_player_result', function(data, callback){
 	console.log(data);
 	$('#status').html("You just got matched! Let's play, your match is: " + data.challenger);
-
-	var x;
-	var r=confirm("Do you want to start playing with " + data.challenger);
-	if (r==true){
-		console.log('yes to playing game');
-		socket.emit('start_game', [], function(response){
-			
-		});
-	}
-	else{
-		console.log('no to playing game');
-
-	}
-	document.getElementById("demo").innerHTML=x;
-
-
+	// $state.go('play', {referer: $state.current.name});
 });
 
 socket.on('player_left', function(data, callback){
