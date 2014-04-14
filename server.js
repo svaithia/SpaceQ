@@ -31,7 +31,7 @@ app.get("/", function(req, res) {
 var wait_queue = [];
 var match_pool = new Object();
 var users = [];
-var match = 0;
+var matchCounter = 0;
 var sockets_list = new Object();
 
 io.sockets.on('connection', function(socket){
@@ -55,15 +55,13 @@ io.sockets.on('connection', function(socket){
 				sockets_list[new_player.id].status = 'wait';
 				console.log('wait_queue');
 			} else {
-				var questions = [];
 				var waiting_player = wait_queue.shift();
-
-				// db.getQuestions(function(questions){ //questions format [{id:id, img:url, options:[option1, option2, option3, option4] X 5]
-					match_pool[match] = new match.Match(waiting_player, new_player, questions, function(){
+				db.getQuestions(function(questions){ //questions format [{id:id, img:url, options:[option1, option2, option3, option4] X 5]
+					match_pool[matchCounter] = new match.Match(waiting_player, new_player, questions, function(){
 						delete match_pool[match];
 		 			});	
-				// });
-				
+		 			// console.log(match_pool[matchCounter].qs[0].options); //test
+				});
 
 				data = {match_id: match};
 
@@ -79,7 +77,7 @@ io.sockets.on('connection', function(socket){
 				sockets_list[waiting_player.id].status = 'play';
 
 				console.log('game_started');
-				match++; // increment match
+				matchCounter++; // increment match
 			}
 			var returnObj	 = {success: true, status: sockets_list[new_player.id].status, data:data};
 			console.log(returnObj);
