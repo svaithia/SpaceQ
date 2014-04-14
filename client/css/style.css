@@ -80,7 +80,7 @@ hr {
 	margin-right: 25px;
 }
 .timer{
-	height: 770px;
+	height: 620px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -88,7 +88,6 @@ hr {
 	bottom:20;
     margin: 0 auto;
     width:20%;
-
 }
 
 .left{
@@ -104,21 +103,26 @@ hr {
   width:10%;
 }
 
+#timeTitle {
+	font-weight: bold;
+	font-size: 30px;
+}
 
 .main_game{
   display: table;
 	width:800px;
-	height:800px;
+	height:640px;
 }
 
-.player_name{
-	font-family:"Times New Roman", Times, serif;
-	font-size: 12px;
+.score{
+	font-family:Calibri (Body);
+	font-weight: bold;
+	font-size: 40px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 	position:absolute;
-	bottom:0;
+	bottom:-30;
 }
 
 .left, .middle, .right{
@@ -126,12 +130,29 @@ hr {
 }
 
 .answer_container{
-  margin-left: 120px;
+  margin-left: 0px;
 }
 
 .answer_row{
   display: table;
-  width:250px;
+  width:100%;
+  padding-bottom: 10px;
+}
+
+#ansA {
+	float:left;
+}
+
+#ansB {
+	float: right;
+}
+
+#ansC {
+	float: left;
+}
+
+#ansD {
+	float: right;
 }
 
 .question, #question{
@@ -143,7 +164,19 @@ hr {
 
   
 .btn-xl {
-    padding: 18px 28px;
+	/*padding: 18px 95px;*/
     font-size: 22px;
     border-radius: 8px;
+	text-align: center;
+}
+
+.custom {
+	min-width: 245px;
+	max-width: 245px;
+	min-height: 55px;
+	max-height: 55px;
+}
+
+.customCountdown {
+	width: 735px;
 }
