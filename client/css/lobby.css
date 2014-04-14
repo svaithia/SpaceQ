@@ -1,0 +1,25 @@
+body {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  background: #faf8ef;
+  background-image: url('http://www.desktopwallpaperhd.net/wallpapers/0/1/background-effected-desktop-1425.jpg');
+  color: #27a1b4;
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px;
+}
+
+#wait {
+	text-align: center;
+	padding-top: 180px;
+	font-size: 100px;
+	font-weight: bold;
+}
+
+#load {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 60px;
+	height: auto;
+}
