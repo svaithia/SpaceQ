@@ -1,39 +1,34 @@
-var gameApp = angular.module('gameApp', ['ngRoute', 'angular.css.injector']);
+var gameApp = angular.module('gameApp', ['ui.router']);
 
-gameApp.config(function($routeProvider) {
+gameApp.config(function($stateProvider) {
 
-	$routeProvider
+	$stateProvider
 
-		// route for the home page
-		.when('/', {
+		// state for the home page
+		.state("home", {
+			url: "",
 			controller: 'SignInController',
 			templateUrl: 'views/partials/signin.html'
 		})
 
-		.when('/lobby', {
+		// state for the game lobby
+		.state('lobby', {
 			templateUrl: 'views/partials/lobby.html'
 		})
 
-		// route for playing the game
-		.when('/play', {
-			controller: 'GameController',
+		// state for playing the game
+		.state('play', {
+//			controller: 'GameController',
 			templateUrl: 'views/partials/game.html'
 		})
 
-		// route for after game finish
-		.when('/results', {
-			controller: 'ScoreController',
+		// state for after game finish
+		.state('results', {
+//			controller: 'ScoreController',
 			templateUrl: 'views/partials/results.html'
 		})
-		
-		.otherwise({
-			redirectTo: '/'
-		});
-
-		// use the HTML5 History API
-//		$locationProvider.html5Mode(true);
 });
-
+/*
 gameApp.factory('gameFactory', function($http) {
 	var db = require('path/to/database.js');
 
@@ -49,8 +44,21 @@ gameApp.factory('gameFactory', function($http) {
 
 	};
 });
+*/
+gameApp.controller('SignInController', function($scope, $state){
+	$scope.changeState = function(stateName) {
+		$state.transitionTo(stateName);
+	}
+});
 
-var controllers = {};
+function changeState(stateName) {
+	var scope = angular.element(document.getElementById("signin")).scope();
+	scope.$apply(function() {
+		scope.changeState(stateName);
+	});
+}
+
+/*var controllers = {};
 controllers.GameController = function ($scope, gameFactory){
     $scope.question = [];
 
@@ -63,7 +71,7 @@ controllers.GameController = function ($scope, gameFactory){
 
 /*    $scope.checkAnswer = function () {
     	$scope.questions.
-    }*/
+    }
 }
 
 controllers.ScoreController = function ($scope) {
@@ -71,7 +79,7 @@ controllers.ScoreController = function ($scope) {
 	$scope.playerBScore = 0;
 }
 
-/*controllers.SignInController = function ($scope, cssInjector) {
+controllers.SignInController = function ($scope, cssInjector) {
 	console.log("SignInController");
 
 	$scope.MyCtrl = function()
@@ -80,17 +88,17 @@ controllers.ScoreController = function ($scope) {
         cssInjector.add("css/style.css");
     }
 
-}*/
+}
 
 gameApp.controller('SignInController', function ($scope, cssInjector) {
 	console.log("SignInController");
 
 	$scope.MyCtrl = function()
-    {
+    {;
      	console.log("SignInController");
         cssInjector.add("css/style.css");
     }
 
 });
 
-//gameApp.controller(controllers);
+//gameApp.controller(controllers);*/

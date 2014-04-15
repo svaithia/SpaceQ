@@ -1,11 +1,11 @@
 <div class="container">
 	<div class="tHeader" style="padding-left: 240px; font-size: 70px;">SpaceQ</div>
-	<div class="main_game">
+	<div id="signin" class="main_game">
 		<div class="left"></div>
 		<div class="middle">
 			<div class="question"><img style="height:700px" id="question" src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/04/International_Space_Station_after_undocking_of_STS-132.jpg/800px-International_Space_Station_after_undocking_of_STS-132.jpg"/>
-				<fb:login-button class="fb-login-button btn btn-info btn-xl btn-block" show-faces="true" width="200" max-rows="1"></fb:login-button>
-				<div ng-controller="SignInController"><button ng-click="MyCtrl()" id="ansB" type="button" class="btn btn-danger btn-xl btn-block"><div id="answerB">Sign In Using Google+</div></button></div>
+				<fb:login-button onlogin="changeState('lobby')" class="fb-login-button btn btn-info btn-xl btn-block" show-faces="true" width="200" max-rows="1"></fb:login-button>
+				<button id="ansB" type="button" class="btn btn-danger btn-xl btn-block"><div id="answerB">Sign In Using Google+</div></button>
 			</div>
 		</div>
 		<div class="right"></div>
@@ -13,7 +13,4 @@
 </div>
 <script>
 	$('#ansB').prop('disabled', true);
-
-	console.log("hi");
-	MyCtrl();
 </script>
