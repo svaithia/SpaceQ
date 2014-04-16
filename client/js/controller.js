@@ -13,6 +13,7 @@ gameApp.config(function($stateProvider) {
 
 		// state for the game lobby
 		.state('lobby', {
+			controller: 'LobbyController',
 			templateUrl: 'views/partials/lobby.html'
 		})
 
@@ -51,8 +52,19 @@ gameApp.controller('SignInController', function($scope, $state){
 	}
 });
 
-function changeState(stateName) {
-	var scope = angular.element(document.getElementById("signin")).scope();
+
+gameApp.controller('LobbyController', function($scope, $state){
+	$scope.changeState = function(stateName) {
+		$state.transitionTo(stateName);
+	}
+});
+
+function checkScope(currId) {
+	return angular.element(document.getElementById(currId)).scope();
+}
+
+function changeState(currId, stateName) {
+	var scope = angular.element(document.getElementById(currId)).scope();
 	scope.$apply(function() {
 		scope.changeState(stateName);
 	});
