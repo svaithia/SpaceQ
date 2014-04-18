@@ -1,12 +1,3 @@
-<html>
-<head>
-<link type="text/css" rel="stylesheet" href="../../css/bootstrap.css">
-<link href="../../css/style.css" rel="stylesheet" type="text/css">
-<link type="text/css" rel="stylesheet" href="../../css/bootstrap-progressbar-3.1.1.css">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-<script src="../../js/bootstrap.js"></script>
-<script src="../../js/bootstrap-progressbar.js"></script>
 <script>
 /* Usage
    updateQuestionAnswer
@@ -48,8 +39,6 @@ function gameOver () {
 	window.open ('results.html?a=' + a + '&b=' + b, '_self');
 }
 </script>
-</head>
-<body>
 	<!--<div class="profileAreaRight">
 		<img id="profilePhoto2" src="http://rlv.zcache.com/basketball_shooter_silhouette_square_sticker-rfaab6535b9cd4426987e91c198b7de19_v9i40_8byvr_512.jpg"></img>
 	</div>-->
@@ -68,6 +57,7 @@ function gameOver () {
 					$('#timeTitle').html ('TIMER: ' + (max + 1 - time) + ' secs');
 					$('.progress-bar').progressbar();
 					if (time - 1 == max) {
+						roundOver();
 						clearInterval(int);
 						// 600ms - width animation time
 						callback && setTimeout(callback, 600);
@@ -159,5 +149,3 @@ function gameOver () {
 		}
 		fun ();
 	</script>
-</body>
-</html>
