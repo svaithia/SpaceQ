@@ -70,8 +70,10 @@ hr {
   margin-bottom: 30px; }
 
 .container {
-  width: 735px;
-  margin: 0 auto; }
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .left, .right{
 	width:75px;
@@ -179,4 +181,16 @@ hr {
 
 .customCountdown {
 	width: 735px;
+}
+
+.profileAreaLeft {
+	position:absolute;
+	width: 100px;
+}
+
+#profilePhoto1 {
+	margin-top: 50px;
+	margin-right: 100px;
+	width: 100%;
+	height: auto;
 }
