@@ -19,7 +19,7 @@ gameApp.config(function($stateProvider) {
 
 		// state for playing the game
 		.state('play', {
-//			controller: 'GameController',
+			controller: 'RoundController',
 			templateUrl: 'views/partials/game.html'
 		})
 
@@ -60,10 +60,17 @@ gameApp.controller('LobbyController', function($scope, $state){
 });
 
 gameApp.controller('RoundController', function($scope, $state){
+	var rounds = 0;
+
 	$scope.roundOver = function() {
 		// get new questions
 		// change state to same state
-		$state.transitionTo(stateName);
+		$state.transitionTo('play');
+		rounds++;
+	}
+
+	$scope.gameOver = function() {
+		$state.transitionTo('results');
 	}
 });
 
