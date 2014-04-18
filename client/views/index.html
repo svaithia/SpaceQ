@@ -31,7 +31,7 @@
         FB.Event.subscribe('auth.authResponseChange', function(response) {
       	  if (response.status === 'connected') {
          	FB.api('/me', function(response) {
-              userloggedin('ID'+Math.random(), 'U'+Math.random(), 'N'+Math.random());
+              userloggedin(response.id, response.username, response.first_name);
               changeState('signin', 'lobby');
          	});
           } else if (response.status === 'not_authorized') {

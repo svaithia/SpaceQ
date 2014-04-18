@@ -5,7 +5,7 @@ gameApp.config(function($stateProvider) {
 	$stateProvider
 
 		// state for the home page
-		.state("home", {
+		.state('home', {
 			url: "",
 			controller: 'SignInController',
 			templateUrl: 'views/partials/signin.html'
@@ -29,9 +29,9 @@ gameApp.config(function($stateProvider) {
 			templateUrl: 'views/partials/results.html'
 		})
 });
-/*
+
 gameApp.factory('gameFactory', function($http) {
-	var db = require('path/to/database.js');
+	var db = require('../server/database.js');
 
 
 	var question = [];
@@ -45,7 +45,7 @@ gameApp.factory('gameFactory', function($http) {
 
 	};
 });
-*/
+
 gameApp.controller('SignInController', function($scope, $state){
 	$scope.changeState = function(stateName) {
 		$state.transitionTo(stateName);
@@ -55,6 +55,14 @@ gameApp.controller('SignInController', function($scope, $state){
 
 gameApp.controller('LobbyController', function($scope, $state){
 	$scope.changeState = function(stateName) {
+		$state.transitionTo(stateName);
+	}
+});
+
+gameApp.controller('RoundController', function($scope, $state){
+	$scope.roundOver = function() {
+		// get new questions
+		// change state to same state
 		$state.transitionTo(stateName);
 	}
 });
