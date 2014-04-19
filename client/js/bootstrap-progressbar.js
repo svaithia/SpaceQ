@@ -20,7 +20,7 @@
     };
 
     Progressbar.defaults = {
-        transition_delay: 300,
+        transition_delay: 0,
         refresh_speed: 50,
         display_text: 'none',
         use_percentage: true,
