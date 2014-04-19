@@ -62,6 +62,11 @@ gameApp.controller('SignInController', function($scope, $state){
 	$scope.changeState = function(stateName) {
 		$state.transitionTo(stateName);
 	}
+	$scope.$watch('$viewContentLoaded', function() {
+		console.log('hi');
+		loginbutton = document.getElementById('loginbutton');
+		setTimeout("FB.XFBML.parse(loginbutton)", 1100);
+	})
 });
 
 
