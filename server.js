@@ -64,7 +64,7 @@ io.sockets.on('connection', function(socket){
 				console.log('wait_queue');
 			} else {
 				var waiting_player = wait_queue.shift();
-				if (waiting_player.id != new_player.id) {
+//				if (waiting_player.id != new_player.id) {
 					suc = true;
 					db.getQuestions(function(questions){ //questions format [{id:id, img:url, options:[option1, option2, option3, option4] X 5]
 						match_pool[matchCounter] = new match.Match(waiting_player, new_player, questions, function(){
@@ -88,16 +88,16 @@ io.sockets.on('connection', function(socket){
 
 					console.log('game_started');
 					matchCounter++; // increment match					
-				}
+//				}
 			}
-			if (suc == true) {
+//			if (suc == true) {
 				var returnObj	 = {success: true, status: sockets_list[new_player.id].status, data:data};
 				console.log(returnObj);
 				callback(returnObj);
-			}
-			else {
-				callback({success: false, status:"You can't start two sessions at once."});		
-			}
+//			}
+//			else {
+//				callback({success: false, status:"You can't start two sessions at once."});						
+//			}
 		} else {
 			callback({success: false, status:"You can't start two sessions at once."});
 		}

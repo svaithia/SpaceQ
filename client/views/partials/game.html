@@ -1,44 +1,3 @@
-<script>
-/* Usage
-   updateQuestionAnswer
-   - question parameter: unknown...
-   - answer parameter: array of answers (4)
-   - imgsrc: link to image
-   - Call to update the question
-   
-   updateTimer
-   - playerA: playerA's current score
-   - playerB: playerB's current score
-   - Call to update the score
-   
-   roundOver()
-   - call when the game is over
-*/
-function updateQuestionAnswer(question, answer, imgsrc){
-	$('#question').attr('src', imgsrc);
-	$('#answerA').html(answer[0]);
-	$('#answerB').html(answer[1]);
-	$('#answerC').html(answer[2]);
-	$('#answerD').html(answer[3]);
-}
-
-function updateTimer(playerA, playerB){
-	$('#score_a').attr('aria-valuetransitiongoal',playerA);
-	$('#score_b').attr('aria-valuetransitiongoal',playerB);
-	$('#p1').html(playerA);
-	$('#p2').html(playerB);
-	$('.progress-bar').progressbar();
-	/*
-	$('#timer_a').attr('style','height:' + playerA + '%');
-	$('#timer_b').attr('style','height:' + playerB + '%'); */
-}
-
-function gameOver () {
-	var a = document.getElementById('score_a').getAttribute('aria-valuetransitiongoal');
-	var b = document.getElementById('score_b').getAttribute('aria-valuetransitiongoal');
-	window.open ('results.html?a=' + a + '&b=' + b, '_self');
-}
-</script>
 	<!--<div class="profileAreaRight">
 		<img id="profilePhoto2" src="http://rlv.zcache.com/basketball_shooter_silhouette_square_sticker-rfaab6535b9cd4426987e91c198b7de19_v9i40_8byvr_512.jpg"></img>
 	</div>-->
@@ -48,27 +7,6 @@ function gameOver () {
 		<div class="progress customCountdown">
 			<div class="progress-bar" id="progress" role="progressbar" aria-valuetransitiongoal="100"></div>
 		</div>
-		<script>
-			function countdown(callback) {
-				var bar = document.getElementById('progress'),
-				time = 0, max = 10;
-				int = setInterval(function() {
-					$('#progress').attr('aria-valuetransitiongoal',Math.floor(100 - time++ * max) + '');
-					$('#timeTitle').html ('TIMER: ' + (max + 1 - time) + ' secs');
-					$('.progress-bar').progressbar();
-					if (time - 1 == max) {
-						roundOver();
-						clearInterval(int);
-						// 600ms - width animation time
-						callback && setTimeout(callback, 600);
-					}
-				}, 1000);
-			}
-
-			countdown(function() {
-				
-			});
-		</script>
 		<!--
 		<div class="profileAreaLeft">
 			<img id="profilePhoto1" src="http://4.bp.blogspot.com/-zsbDeAUd8aY/US7F0ta5d9I/AAAAAAAAEKY/UL2AAhHj6J8/s1600/facebook-default-no-profile-pic.jpg"></img>

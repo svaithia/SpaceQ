@@ -49,6 +49,11 @@ gameApp.factory('gameFactory', function($http) {
 gameApp.controller('SignInController', function($scope, $state){
 	$scope.changeState = function(stateName) {
 		$state.transitionTo(stateName);
+
+		if (stateName == 'lobby') {
+			$("link[href*='/css/style.css']").remove();
+			$('head').append('<link type="text/css" rel="stylesheet" href="/css/lobby.css">');
+		}
 	}
 });
 
@@ -83,6 +88,11 @@ function changeState(currId, stateName) {
 	scope.$apply(function() {
 		scope.changeState(stateName);
 	});
+
+	if (stateName == 'lobby') {
+		$("link[href*='/css/style.css']").remove();
+		$('head').append('<link type="text/css" rel="stylesheet" href="/css/lobby.css">');
+	}
 }
 
 /*var controllers = {};

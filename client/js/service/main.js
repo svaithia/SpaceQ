@@ -9,11 +9,11 @@ function userloggedin(id, username, name){
 				$('#status').html('WAITING FOR ANOTHER PLAYER. CURRENTLY YOUR POSITION IS: ' + response.data.position + '.');
 			} else if(response.status == 'play'){
 				$('#status').html('TIME TO PLAY. WE FOUND SOMEONE WAITING FOR YOU!');
-//				changeState('wait', 'play');
 			}
 		} else {
 			$('#status').html(response.status);
 		}
+		changeState('signin', 'lobby');
 	});
 }
 
@@ -24,10 +24,12 @@ socket.on('new_player_result', function(data, callback){
 	// user logs in, another player is waiting in lobby, user skips lobby
 	if (typeof checkScope('wait') === 'undefined') {
 		changeState('signin', 'play');
+		countdown(function() {});
 	}
 	// otherwise, the user is waiting in the lobby, switch from lobby to game
 	else {
 		changeState('wait', 'play');
+		countdown(function() {});
 	}
 });
 
