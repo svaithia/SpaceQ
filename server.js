@@ -46,9 +46,7 @@ io.sockets.on('connection', function(socket){
 		console.log(new_player);
 		// db.updatePlayerInfo(new_player);
 
-		var data;
 		if(users.indexOf(new_player.id) == -1){ ////// MULTIPLE GAMES ////// MULTIPLE GAMES ////// MULTIPLE GAMES
-			var suc = false;
 			console.log(users.indexOf(new_player.id));
 			users.push(new_player.id);
 			console.log(new_player.id);
@@ -57,23 +55,22 @@ io.sockets.on('connection', function(socket){
 
 			socket.join(match);
 			if((wait_queue.length)%2 == 0){
-				suc = true;
 				wait_queue.push(new_player);
-				data = {position: wait_queue.length};
+				var data = {position: wait_queue.length};
 				sockets_list[new_player.id].status = 'wait';
 				console.log('wait_queue');
-			} else {
-				var waiting_player = wait_queue.shift();
-//				if (waiting_player.id != new_player.id) {
-					suc = true;
-					db.getQuestions(function(questions){ //questions format [{id:id, img:url, options:[option1, option2, option3, option4] X 5]
-						match_pool[matchCounter] = new match.Match(waiting_player, new_player, questions, function(){
-							delete match_pool[match];
-					 	});	
-						// console.log(match_pool[matchCounter].qs[0].options); //test
-					});
 
-					data = {match_id: match};
+				var returnObj = { success: true, status: sockets_list[new_player.id].status, data:data };
+				callback(returnObj);
+			}
+			else {
+				var waiting_player = wait_queue.shift();
+				db.getQuestions(function(questions){ //questions format [{id:id, img:url, options:[option1, option2, option3, option4] X 5]
+					match_pool[matchCounter] = new match.Match(waiting_player, new_player, questions, function(){
+						delete match_pool[match];
+				 	});
+					console.log(questions);
+					var data = {match_id: match};
 
 					sockets_list[new_player.id].match_id = match;
 					sockets_list[waiting_player.id].match_id = match;
@@ -88,16 +85,11 @@ io.sockets.on('connection', function(socket){
 
 					console.log('game_started');
 					matchCounter++; // increment match					
-//				}
+
+					var returnObj = { success: true, status: sockets_list[new_player.id].status, data:data };
+					callback(returnObj);
+				});
 			}
-//			if (suc == true) {
-				var returnObj	 = {success: true, status: sockets_list[new_player.id].status, data:data};
-				console.log(returnObj);
-				callback(returnObj);
-//			}
-//			else {
-//				callback({success: false, status:"You can't start two sessions at once."});						
-//			}
 		} else {
 			callback({success: false, status:"You can't start two sessions at once."});
 		}

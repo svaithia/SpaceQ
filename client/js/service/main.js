@@ -7,13 +7,19 @@ function userloggedin(id, username, name){
 		if(response.success){
 			if(response.status == 'wait'){
 				$('#status').html('WAITING FOR ANOTHER PLAYER. CURRENTLY YOUR POSITION IS: ' + response.data.position + '.');
+				changeState('signin', 'lobby');
 			} else if(response.status == 'play'){
 				$('#status').html('TIME TO PLAY. WE FOUND SOMEONE WAITING FOR YOU!');
+				changeState('signin', 'play');
 			}
 		} else {
-			$('#status').html(response.status);
+			changeState('signin', 'lobby', function(){
+				// $('#wait').html('ERRRRRRRRRRROR');
+				console.log($('#wait').text());
+			});
+			// console.log('ERRRRRRRRRRROR');
+			// $('#wait').html('ERRRRRRRRRRROR');
 		}
-		changeState('signin', 'lobby');
 	});
 }
 
@@ -28,6 +34,7 @@ socket.on('new_player_result', function(data, callback){
 	}
 	// otherwise, the user is waiting in the lobby, switch from lobby to game
 	else {
+		changeState('signin', 'play');
 		changeState('wait', 'play');
 		countdown(function() {});
 	}

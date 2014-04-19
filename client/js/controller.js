@@ -83,7 +83,7 @@ function checkScope(currId) {
 	return angular.element(document.getElementById(currId)).scope();
 }
 
-function changeState(currId, stateName) {
+function changeState(currId, stateName, fn_callback) {
 	var scope = angular.element(document.getElementById(currId)).scope();
 	scope.$apply(function() {
 		scope.changeState(stateName);
@@ -92,6 +92,11 @@ function changeState(currId, stateName) {
 	if (stateName == 'lobby') {
 		$("link[href*='/css/style.css']").remove();
 		$('head').append('<link type="text/css" rel="stylesheet" href="/css/lobby.css">');
+		console.log($('#wait').text());
+		console.log('sdf');
+	}
+	if(fn_callback){
+		fn_callback();
 	}
 }
 
