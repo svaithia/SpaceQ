@@ -104,7 +104,7 @@ io.sockets.on('connection', function(socket){
 			if(index != -1){
 				users.splice(index, 1);
 			}
-			var wait_list_index = wait_queue.map(function(e) { return e.id; }).indexOf(socket.player);
+			var wait_list_index = wait_queue.map(function(e) { return e.id; }).indexOf(socket.player.id);
 			if(wait_list_index != -1){
 				wait_queue.splice(wait_list_index,1);
 			}
