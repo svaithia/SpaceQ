@@ -30,7 +30,7 @@ gameApp.config(function($stateProvider) {
 		.state('results', {
 //			controller: 'ScoreController',
 			templateUrl: 'views/partials/results.html',
-			css: '/css/style.css'
+			css: '/css/results.css'
 		})
 });
 
@@ -73,18 +73,18 @@ gameApp.controller('LobbyController', function($scope, $state){
 
 gameApp.controller('RoundController', function($scope, $state){
 	
-	var rounds = 0;
+	var rounds = 1;
 
 	$scope.roundOver = function() {
 		if (rounds == 5) {
-			rounds = 0;
+			this.rounds = 0;
 			$scope.gameOver();
 		}
 		else {
 			// get new questions
 			// change state to same state
-			$state.transitionTo('play');
-			rounds++;
+			this.rounds++;
+			countdown(function() {});
 		}
 	}
 
@@ -119,7 +119,7 @@ function changeState(currId, stateName, fn_callback) {
 }
 
 function roundOver() {
-	var scope = getScope('main_game');
+	var scope = getScope('game');
 	scope.$apply(function() {
 		scope.roundOver();
 	});
