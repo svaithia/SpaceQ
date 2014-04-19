@@ -8,25 +8,29 @@ gameApp.config(function($stateProvider) {
 		.state('home', {
 			url: "",
 			controller: 'SignInController',
-			templateUrl: 'views/partials/signin.html'
+			templateUrl: 'views/partials/signin.html',
+			css: '/css/style.css'
 		})
 
 		// state for the game lobby
 		.state('lobby', {
 			controller: 'LobbyController',
-			templateUrl: 'views/partials/lobby.html'
+			templateUrl: 'views/partials/lobby.html',
+			css: '/css/lobby.css'
 		})
 
 		// state for playing the game
 		.state('play', {
 			controller: 'RoundController',
-			templateUrl: 'views/partials/game.html'
+			templateUrl: 'views/partials/game.html',
+			css: '/css/style.css'
 		})
 
 		// state for after game finish
 		.state('results', {
 //			controller: 'ScoreController',
-			templateUrl: 'views/partials/results.html'
+			templateUrl: 'views/partials/results.html',
+			css: '/css/style.css'
 		})
 });
 
@@ -46,14 +50,17 @@ gameApp.factory('gameFactory', function($http) {
 	};
 });
 
+gameApp.controller('MainController', function($scope) {
+	$scope.css="/css/style.css";
+
+	$scope.$on('$stateChangeSuccess', function(event, toState) {
+		$scope.css = toState.css;
+	});
+});
+
 gameApp.controller('SignInController', function($scope, $state){
 	$scope.changeState = function(stateName) {
 		$state.transitionTo(stateName);
-
-		if (stateName == 'lobby') {
-			$("link[href*='/css/style.css']").remove();
-			$('head').append('<link type="text/css" rel="stylesheet" href="/css/lobby.css">');
-		}
 	}
 });
 
@@ -65,13 +72,20 @@ gameApp.controller('LobbyController', function($scope, $state){
 });
 
 gameApp.controller('RoundController', function($scope, $state){
+	
 	var rounds = 0;
 
 	$scope.roundOver = function() {
-		// get new questions
-		// change state to same state
-		$state.transitionTo('play');
-		rounds++;
+		if (rounds == 5) {
+			rounds = 0;
+			$scope.gameOver();
+		}
+		else {
+			// get new questions
+			// change state to same state
+			$state.transitionTo('play');
+			rounds++;
+		}
 	}
 
 	$scope.gameOver = function() {
@@ -79,20 +93,32 @@ gameApp.controller('RoundController', function($scope, $state){
 	}
 });
 
-function checkScope(currId) {
+gameApp.directive('backImg', function() {
+	return function(scope, element, attrs) {
+		attrs.$observe('backImg', function(value) {
+			element.css({
+				'background-image': 'url(' + value + ')'
+			});
+		});
+	};
+});
+
+function getScope(currId) {
 	return angular.element(document.getElementById(currId)).scope();
 }
 
 function changeState(currId, stateName) {
-	var scope = angular.element(document.getElementById(currId)).scope();
+	var scope = getScope(currId);
 	scope.$apply(function() {
 		scope.changeState(stateName);
 	});
+}
 
-	if (stateName == 'lobby') {
-		$("link[href*='/css/style.css']").remove();
-		$('head').append('<link type="text/css" rel="stylesheet" href="/css/lobby.css">');
-	}
+function roundOver() {
+	var scope = getScope('main_game');
+	scope.$apply(function() {
+		scope.roundOver();
+	})
 }
 
 /*var controllers = {};
