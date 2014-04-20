@@ -1,0 +1,163 @@
+<html>
+<head>
+<link type="text/css" rel="stylesheet" href="../../css/bootstrap.css">
+<link href="../../css/style.css" rel="stylesheet" type="text/css">
+<link type="text/css" rel="stylesheet" href="../../css/bootstrap-progressbar-3.1.1.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="../../js/bootstrap.js"></script>
+<script src="../../js/bootstrap-progressbar.js"></script>
+<script>
+/* Usage
+   updateQuestionAnswer
+   - question parameter: unknown...
+   - answer parameter: array of answers (4)
+   - imgsrc: link to image
+   - Call to update the question
+   
+   updateTimer
+   - playerA: playerA's current score
+   - playerB: playerB's current score
+   - Call to update the score
+   
+   roundOver()
+   - call when the game is over
+*/
+function updateQuestionAnswer(question, answer, imgsrc){
+	$('#question').attr('src', imgsrc);
+	$('#answerA').html(answer[0]);
+	$('#answerB').html(answer[1]);
+	$('#answerC').html(answer[2]);
+	$('#answerD').html(answer[3]);
+}
+
+function updateTimer(playerA, playerB){
+	$('#score_a').attr('aria-valuetransitiongoal',playerA);
+	$('#score_b').attr('aria-valuetransitiongoal',playerB);
+	$('#p1').html(playerA);
+	$('#p2').html(playerB);
+	$('.progress-bar').progressbar();
+	/*
+	$('#timer_a').attr('style','height:' + playerA + '%');
+	$('#timer_b').attr('style','height:' + playerB + '%'); */
+}
+
+function gameOver () {
+	var a = document.getElementById('score_a').getAttribute('aria-valuetransitiongoal');
+	var b = document.getElementById('score_b').getAttribute('aria-valuetransitiongoal');
+	window.open ('results.html?a=' + a + '&b=' + b, '_self');
+}
+</script>
+</head>
+<body>
+	<!--<div class="profileAreaRight">
+		<img id="profilePhoto2" src="http://rlv.zcache.com/basketball_shooter_silhouette_square_sticker-rfaab6535b9cd4426987e91c198b7de19_v9i40_8byvr_512.jpg"></img>
+	</div>-->
+	<div class="container">
+		<div class="tHeader" style="padding-left: 240px; font-size: 70px; height: 85px;">SpaceQ</div>
+		<div id="timeTitle">TIMER: -- secs</div>
+		<div class="progress customCountdown">
+			<div class="progress-bar" id="progress" role="progressbar" aria-valuetransitiongoal="100"></div>
+		</div>
+		<script>
+			function countdown(callback) {
+				var bar = document.getElementById('progress'),
+				time = 0, max = 10;
+				int = setInterval(function() {
+					$('#progress').attr('aria-valuetransitiongoal',Math.floor(100 - time++ * max) + '');
+					$('#timeTitle').html ('TIMER: ' + (max + 1 - time) + ' secs');
+					$('.progress-bar').progressbar();
+					if (time - 1 == max) {
+						clearInterval(int);
+						// 600ms - width animation time
+						callback && setTimeout(callback, 600);
+					}
+				}, 1000);
+			}
+
+			countdown(function() {
+				
+			});
+		</script>
+		<!--
+		<div class="profileAreaLeft">
+			<img id="profilePhoto1" src="http://4.bp.blogspot.com/-zsbDeAUd8aY/US7F0ta5d9I/AAAAAAAAEKY/UL2AAhHj6J8/s1600/facebook-default-no-profile-pic.jpg"></img>
+		</div>-->
+		<div class="main_game">
+			<div class="left">
+				<div class="timer">
+					<!--<div id="timer_a"></div>-->
+					<div class="progress progress-striped vertical bottom wide active">
+						<div id="score_a" class="progress-bar" role="progressbar" aria-valuetransitiongoal="0">
+						</div>
+					</div>
+				</div>
+				<div class="player_container">
+					<div class="score" id="p1">0</div>
+				</div>
+			</div>
+
+			<div class="middle">
+				<div class="question"><img id="question" src="http://sierrafire.cr.usgs.gov/images/loading.gif"/></div>
+
+				<br>
+				<div class="answer_container">
+					<div class="answer_row">
+						
+						<button id="ansA" type="button" class="btn btn-success btn-xl custom"><div id="answerA">value</div></button>
+						<button id="ansB" type="button" class="btn btn-warning btn-xl custom"><div id="answerB">value</div></button>
+					</div>
+					
+					<div class="answer_row">
+						<button id="ansC" type="button" class="btn btn-danger btn-xl custom"><div id="answerC">value</div></button>
+						<button id="ansD" type="button" class="btn btn-info btn-xl custom"><div id="answerD">value</div></button>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="right">
+				<div class="timer">
+					<div class="progress progress-striped vertical bottom wide active">
+						<div id="score_b" class="progress-bar progress-bar-danger" role="progressbar" aria-valuetransitiongoal="0">
+						</div>
+					</div>
+				</div>
+
+
+				<div class="player_container">
+					<div class="score" id="p2">0</div>
+				</div>
+		</div>
+	</div>
+	<script>
+		$('.progress-bar').progressbar();
+		$('#ansA').on('click', function(event){
+			
+		});
+		
+		$('#ansB').click(function(){
+			
+		});
+
+		$('#ansC').click(function(){
+			
+		});
+
+		$('#ansD').click(function(){
+			
+		});
+		var a = 0;
+		function fun () {
+			var x = setInterval (function () {
+				a+=2;
+				updateTimer (a, a);
+				if (a == 100) {
+					window.clearInterval (x);
+				}
+			}, 100)
+		}
+		fun ();
+	</script>
+</body>
+</html>
