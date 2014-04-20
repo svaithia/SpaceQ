@@ -63,10 +63,9 @@ gameApp.controller('SignInController', function($scope, $state){
 		$state.transitionTo(stateName);
 	}
 	$scope.$watch('$viewContentLoaded', function() {
-		console.log('hi');
 		loginbutton = document.getElementById('loginbutton');
 		setTimeout("FB.XFBML.parse(loginbutton)", 1100);
-	})
+	});
 });
 
 
@@ -81,7 +80,7 @@ gameApp.controller('RoundController', function($scope, $state){
 	var rounds = 1;
 
 	$scope.roundOver = function() {
-		if (rounds == 5) {
+		if (rounds == 1) {
 			this.rounds = 0;
 			$scope.gameOver();
 		}
