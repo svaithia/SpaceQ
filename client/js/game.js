@@ -46,10 +46,10 @@ function countdown(callback) {
 		$('#timeTitle').html ('TIMER: ' + (max + 1 - time) + ' secs');
 		$('.progress-bar').progressbar();
 		if (time - 1 == max) {
-			roundOver();
 			clearInterval(int);
 			// 600ms - width animation time
 			callback && setTimeout(callback, 600);
+			roundOver();
 		}
 	}, 1000);
 }

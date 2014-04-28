@@ -34,12 +34,11 @@
                 userloggedin(response.id, response.username, response.first_name);
            	});
           } else if (response.status === 'not_authorized') {
-        	FB.login();
+          	FB.login();
           } else {
-        	FB.login();
+          	FB.login();
           }
         });
-
       };
 
       // Load the SDK asynchronously
