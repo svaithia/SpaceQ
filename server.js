@@ -80,8 +80,12 @@ io.sockets.on('connection', function(socket){
 					sockets_list[waiting_player.id].emit('new_player_result',  { challenger: new_player.name }, function(data){ });
 
 					//match_pool.push(new Match(old_player, player));
+					new_player.match_id = matchCounter;
+					waiting_player.match_id = matchCounter;
+
 					sockets_list[new_player.id].status = 'play';
 					sockets_list[waiting_player.id].status = 'play';
+
 
 					console.log('game_started');
 					matchCounter++; // increment match					
@@ -121,6 +125,16 @@ io.sockets.on('connection', function(socket){
 		}
 	});
 
-	
+
+	socket.on('get_questions', function (req, callback) {
+		var returnObj = new Object();
+		returnObj.success = true;
+		var player_match_id = socket.player.match_id;
+
+		var matchObj = match_pool[player_match_id];
+		returnObj.questions = matchObj.getAllQuestions();
+
+		callback(returnObj);
+	});
 
 });
