@@ -10,7 +10,7 @@ function userloggedin(id, username, name){
 				changeState('signin', 'lobby');
 			} else if(response.status == 'play'){
 				$('#status').html('TIME TO PLAY. WE FOUND SOMEONE WAITING FOR YOU!');
-				changeState('signin', 'play');
+//				changeState('signin', 'play');
 			}
 		} else {
 			changeState('signin', 'lobby', function(){
@@ -28,13 +28,11 @@ socket.on('new_player_result', function(data, callback){
 	$('#status').html("You just got matched! Let's play, your match is: " + data.challenger);
 	// user logs in, another player is waiting in lobby, user skips lobby
 	if (typeof getScope('wait') === 'undefined') {
-		changeState('signin', 'play');
-		countdown(function() {});
+		changeState('signin', 'load');
 	}
 	// otherwise, the user is waiting in the lobby, switch from lobby to game
 	else {
-		changeState('wait', 'play');
-		countdown(function() {});
+		changeState('wait', 'load');
 	}
 });
 
@@ -64,6 +62,12 @@ gameApp.config(function($stateProvider) {
 			css: '/css/lobby.css'
 		})
 
+		.state('load', {
+			controller: 'LoadController',
+			templateUrl: 'views/partials/load.html',
+			css: '/css/style.css'
+		})		
+
 		// state for playing the game
 		.state('play', {
 			controller: 'RoundController',
@@ -86,24 +90,30 @@ function getQuestionFromServer(){
 	});
 }
 
-gameApp.factory('gameFactory', function($http) {
-	socket.emit('get_questions', params, function(response){
-		if(response.success == true){
-			var question = response.qustions;
-			var factory = {};
+gameApp.factory('qFactory', function($http) {
+	var factory = {};
+	var params = {};
 
-			factory.getQuestion = function() {
-				return question;
-			};
+	factory.getQuestions = function () {
+		socket.emit('get_questions', params, function(response){
+		});
+	};
 
-			factory.postQuestion = function(question) {
-
-			};
-		}
-	});
-
-
+	return factory;
 });
+
+gameApp.service('sharedProperties', function () {
+	var questions = [];
+
+	return {
+		getQuestions: function () {
+			return questions;
+		},
+		setQuestions: function(qs) {
+			questions = qs;
+		}
+	};
+})
 
 gameApp.controller('MainController', function($scope) {
 	$scope.css="/css/style.css";
@@ -130,19 +140,68 @@ gameApp.controller('LobbyController', function($scope, $state){
 	}
 });
 
-gameApp.controller('RoundController', function($scope, $state){
-	
-	var rounds = 1;
+gameApp.controller('LoadController', function($scope, $state, qFactory, sharedProperties) {
+	var questions = [];
 
-	$scope.roundOver = function() {
-		if (rounds == 1) {
-			this.rounds = 0;
+	init();
+
+	function init() {
+		qFactory.getQuestions();
+//		setTimeout(function(){console.log($scope.questions);},6000);
+//		setTimeout(function(){console.log($scope.questions[0]);},6000);
+	}
+
+	socket.on('get_questions_result', function(data, callback) {
+//		console.log(data.questions);
+		$scope.setQuestions(data.questions, function(stateName) {
+			$scope.changeState(stateName);
+		});
+	});
+
+	$scope.changeState = function(stateName) {
+		$state.transitionTo(stateName);
+	}
+
+	$scope.setQuestions = function(qs, callback) {
+		questions = qs;
+		sharedProperties.setQuestions(questions);
+		if (callback) {
+			callback('play');
+		}
+	}
+});
+
+gameApp.controller('RoundController', function($scope, $state, sharedProperties){
+	
+	var rounds = 0;
+	var questions = [];
+
+	$scope.question = [];
+
+	init();
+
+	function init() {
+		questions = sharedProperties.getQuestions();
+		console.log(questions);
+//		setTimeout(function(){console.log($scope.questions);},6000);
+//		setTimeout(function(){console.log($scope.questions[0]);},6000);
+	}
+
+	$scope.getQuestion = function(round) {
+		$scope.question = questions[round];
+		console.log($scope.question);
+	}
+
+	$scope.startRound = function() {
+		if (rounds == 5) {
+			rounds = 0;
 			$scope.gameOver();
 		}
 		else {
 			// get new questions
 			// change state to same state
-			this.rounds++;
+			$scope.getQuestion(rounds);
+			rounds++;
 			countdown(function() {});
 		}
 	}
@@ -154,8 +213,12 @@ gameApp.controller('RoundController', function($scope, $state){
 	$scope.getAnswer = function(clickEvent) {
 		console.log(clickEvent);
 	}
+
+	$scope.$watch('$viewContentLoaded', $scope.startRound());
+
 });
 
+/*
 gameApp.directive('backImg', function() {
 	return function(scope, element, attrs) {
 		attrs.$observe('backImg', function(value) {
@@ -165,7 +228,7 @@ gameApp.directive('backImg', function() {
 		});
 	};
 });
-
+*/
 function getScope(currId) {
 	return angular.element(document.getElementById(currId)).scope();
 }
@@ -181,10 +244,10 @@ function changeState(currId, stateName, fn_callback) {
 	}
 }
 
-function roundOver() {
+function startRound() {
 	var scope = getScope('game');
 	scope.$apply(function() {
-		scope.roundOver();
+		scope.startRound();
 	});
 }
 

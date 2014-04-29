@@ -133,6 +133,7 @@ io.sockets.on('connection', function(socket){
 
 		var matchObj = match_pool[player_match_id];
 		returnObj.questions = matchObj.getAllQuestions();
+		socket.broadcast.to(player_match_id).emit('get_questions_result', {questions: returnObj.questions});
 
 		callback(returnObj);
 	});

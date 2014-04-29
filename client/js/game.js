@@ -49,7 +49,7 @@ function countdown(callback) {
 			clearInterval(int);
 			// 600ms - width animation time
 			callback && setTimeout(callback, 600);
-			roundOver();
+			startRound();
 		}
 	}, 1000);
 }
