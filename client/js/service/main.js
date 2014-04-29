@@ -28,7 +28,7 @@ socket.on('new_player_result', function(data, callback){
 	console.log(data);
 	$('#status').html("You just got matched! Let's play, your match is: " + data.challenger);
 	// user logs in, another player is waiting in lobby, user skips lobby
-	if (typeof checkScope('wait') === 'undefined') {
+	if (typeof getScope('wait') === 'undefined') {
 		changeState('signin', 'play');
 		countdown(function() {});
 	}
