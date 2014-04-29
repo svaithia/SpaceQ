@@ -22,40 +22,6 @@
 // 		}
 // 	});
 // }
-
-
-<<<<<<< HEAD
-// socket.on('new_player_result', function(data, callback){
-// 	console.log(data);
-// 	$('#status').html("You just got matched! Let's play, your match is: " + data.challenger);
-// 	// user logs in, another player is waiting in lobby, user skips lobby
-// 	if (typeof checkScope('wait') === 'undefined') {
-// 		changeState('signin', 'play');
-// 		countdown(function() {});
-// 	}
-// 	// otherwise, the user is waiting in the lobby, switch from lobby to game
-// 	else {
-// 		changeState('wait', 'play');
-// 		countdown(function() {});
-// 	}
-// });
-=======
-socket.on('new_player_result', function(data, callback){
-	console.log(data);
-	$('#status').html("You just got matched! Let's play, your match is: " + data.challenger);
-	// user logs in, another player is waiting in lobby, user skips lobby
-	if (typeof getScope('wait') === 'undefined') {
-		changeState('signin', 'play');
-		countdown(function() {});
-	}
-	// otherwise, the user is waiting in the lobby, switch from lobby to game
-	else {
-		changeState('wait', 'play');
-		countdown(function() {});
-	}
-});
->>>>>>> 2535d774253cee1451fb39f0866183e682b7b7f3
-
 // socket.on('player_left', function(data, callback){
 // 	$('#status').html("Your opponent, " + data.player.name +", just left.");
 // 	console.log(data);
