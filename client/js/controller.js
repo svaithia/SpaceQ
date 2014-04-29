@@ -150,6 +150,10 @@ gameApp.controller('RoundController', function($scope, $state){
 	$scope.gameOver = function() {
 		$state.transitionTo('results');
 	}
+
+	$scope.getAnswer = function(clickEvent) {
+		console.log(clickEvent);
+	}
 });
 
 gameApp.directive('backImg', function() {
