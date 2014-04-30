@@ -3,37 +3,30 @@ var socket = io.connect();
 function userloggedin(id, username, name){
 	var params = {id: id, username: username, name: name};
 	socket.emit('new_player', params, function(response){
-		console.log(response);
 		if(response.success){
-			if(response.status == 'wait'){
-				$('#status').html('WAITING FOR ANOTHER PLAYER. CURRENTLY YOUR POSITION IS: ' + response.data.position + '.');
+			var status = response.data.status;
+			if(status == 'wait'){
+				console.log('GO TO LOBBY');
 				changeState('signin', 'lobby');
-			} else if(response.status == 'play'){
-				$('#status').html('TIME TO PLAY. WE FOUND SOMEONE WAITING FOR YOU!');
-//				changeState('signin', 'play');
+			}
+			else if(status == 'play'){
+				console.log('GO TO PLAY');
 			}
 		} else {
 			changeState('signin', 'lobby', function(){
-				// $('#wait').html('ERRRRRRRRRRROR');
 				console.log($('#wait').text());
 			});
-			// console.log('ERRRRRRRRRRROR');
-			// $('#wait').html('ERRRRRRRRRRROR');
 		}
 	});
 }
 
 socket.on('new_player_result', function(data, callback){
-	console.log(data);
-	$('#status').html("You just got matched! Let's play, your match is: " + data.challenger);
-	// user logs in, another player is waiting in lobby, user skips lobby
-	if (typeof getScope('wait') === 'undefined') {
-		changeState('signin', 'load');
-	}
-	// otherwise, the user is waiting in the lobby, switch from lobby to game
-	else {
-		changeState('wait', 'load');
-	}
+	var current_state = typeof getScope('home') === 'undefined' ? 'wait' : 'home';
+	changeState(current_state, 'load');
+});
+
+socket.on('SERVER', function(data, callback){
+	console.log('aa');
 });
 
 socket.on('player_left', function(data, callback){
@@ -140,12 +133,9 @@ gameApp.controller('LoadController', function($scope, $state, qFactory, sharedPr
 
 	function init() {
 		qFactory.getQuestions();
-//		setTimeout(function(){console.log($scope.questions);},6000);
-//		setTimeout(function(){console.log($scope.questions[0]);},6000);
 	}
 
 	socket.on('get_questions_result', function(data, callback) {
-//		console.log(data.questions);
 		$scope.setQuestions(data.questions, function(stateName) {
 			$scope.changeState(stateName);
 		});

@@ -1,11 +1,12 @@
 var express = require("express"),
 	app = express(),
 	mongoose = require('mongoose'),
-	player = require('./server/model/player_class'),
+	R_PLAYER = require('./server/model/player_class'),
 	path = require('path'),
 	server = require('http').createServer(app),
 	io = require('socket.io').listen(server),
-	db = require('./server/database');
+	db = require('./server/database'),
+	R_MATCH = require('./server/model/match_class');
 
 app.use(express.static(path.join(__dirname, 'client')));
 
@@ -32,69 +33,72 @@ var wait_queue = [];
 var match_pool = new Object();
 var users = [];
 var matchCounter = 0;
-var sockets_list = new Object();
+var sockets_list = new Object(); 
+// list of socket{ 'player_id'}
+// sockets_list { 'player_id'}
 
 io.sockets.on('connection', function(socket){
 	socket.on('new_player', function(req, callback){
-		var player = require('./server/model/player_class'); 
-		var match = require('./server/model/match_class');
+		var new_player = new R_PLAYER.Player(req.id, req.username, req.name);
 
-		console.log(req.id);
-		console.log(req.username);
-		console.log(req.name);
-		var new_player = new player.Player(req.id, req.username, req.name);
-		console.log(new_player);
-		// db.updatePlayerInfo(new_player);
-
-		if(users.indexOf(new_player.id) == -1){ ////// MULTIPLE GAMES ////// MULTIPLE GAMES ////// MULTIPLE GAMES
-			console.log(users.indexOf(new_player.id));
-			users.push(new_player.id);
-			console.log(new_player.id);
+		if(users.indexOf( new_player.getId() ) == -1){ ////// MULTIPLE GAMES ////// MULTIPLE GAMES ////// MULTIPLE GAMES
+			users.push(new_player.getId());
 			socket.player = new_player;
-			sockets_list[new_player.id] = socket;
+			sockets_list[new_player.getId()] = socket;
 
-			socket.join(match);
+			var returnObj = { success: false };
+
 			if((wait_queue.length)%2 == 0){
 				wait_queue.push(new_player);
-				var data = {position: wait_queue.length};
-				sockets_list[new_player.id].status = 'wait';
-				console.log('wait_queue');
+				new_player.setStatus('wait');
 
-				var returnObj = { success: true, status: sockets_list[new_player.id].status, data:data };
-				callback(returnObj);
+				returnObj.success = true;
+				returnObj.player = new_player;
+				returnObj.status = socket.status;
+				returnObj.data = {	position: wait_queue.length, 
+									status: new_player.getStatus() };
+				callback(returnObj); // seperate for db callback
 			}
 			else {
 				var waiting_player = wait_queue.shift();
-				db.getQuestions(function(questions, answers){ //questions format [{id:id, img:url, options:[option1, option2, option3, option4] X 5]
-					match_pool[matchCounter] = new match.Match(waiting_player, new_player, questions, answers, function(){
-						delete match_pool[match];
+				sockets_list[new_player.getId()] = socket;
+				db.getQuestions(function(questions, answers){
+				//questions format [{id:id, img:url, options:[option1, option2, option3, option4] X 5]
+
+					var match = new R_MATCH.Match(waiting_player, new_player, questions, answers, function(){
+						delete match_pool[matchCounter];
 				 	});
-					console.log(questions);
-					var data = {match_id: match};
+				 	match_pool[matchCounter] = match;
 
-					sockets_list[new_player.id].match_id = match;
-					sockets_list[waiting_player.id].match_id = match;
+					new_player.setMatchId(matchCounter);
+					waiting_player.setMatchId(matchCounter);
 
-					// socket.broadcast.to(match).emit('new_player_result', { challenger: waiting_player.name }, function(data){ });
-					sockets_list[new_player.id].emit('new_player_result', { challenger: waiting_player.name }, function(data){ });
-					sockets_list[waiting_player.id].emit('new_player_result',  { challenger: new_player.name }, function(data){ });
+					sockets_list[new_player.getId()].join(matchCounter);
+					sockets_list[waiting_player.getId()].join(matchCounter);
 
-					//match_pool.push(new Match(old_player, player));
-					new_player.match_id = matchCounter;
-					waiting_player.match_id = matchCounter;
+					// sockets_list[new_player.getId()].emit('new_player_result', { challenger: waiting_player.name }, function(data){ });
+					// sockets_list[waiting_player.getId()].emit('new_player_result',  { challenger: new_player.name }, function(data){ });
 
-					sockets_list[new_player.id].status = 'play';
-					sockets_list[waiting_player.id].status = 'play';
+					new_player.setStatus('play');
+					waiting_player.setStatus('play');
 
+					matchCounter++; // increment match
 
-					console.log('game_started');
-					matchCounter++; // increment match					
+					returnObj.success = true;
+					returnObj.player = new_player;
+					returnObj.status = new_player.status;
+					returnObj.data = {	playerA: waiting_player,
+										playerB: new_player,
+										match_id: new_player.getMatchId(),
+										status: new_player.getStatus()	};
 
-					var returnObj = { success: true, status: sockets_list[new_player.id].status, data:data };
-					callback(returnObj);
+					callback(returnObj); // seperate for db callback
+					io.sockets.in(waiting_player.getMatchId()).emit('new_player_result', returnObj);
 				});
 			}
-		} else {
+			
+		} // new player (not same session)
+		else {
 			callback({success: false, status:"You can't start two sessions at once."});
 		}
 	});
@@ -103,8 +107,8 @@ io.sockets.on('connection', function(socket){
 		if(!socket.player){
 			console.log('lurker');
 			return;
-		} else if(sockets_list[socket.player.id].status == 'wait'){
-			var index = users.indexOf(socket.player.id);
+		} else if(socket.player.getStatus() == 'wait'){
+			var index = users.indexOf(socket.player.getId());
 			if(index != -1){
 				users.splice(index, 1);
 			}
@@ -115,13 +119,9 @@ io.sockets.on('connection', function(socket){
 
 		} else{
 			console.log('signed in user');
-			console.log(socket.player);
-			var room = sockets_list[socket.player.id].match_id;
+			var room = socket.player.getMatchId();
 			socket.broadcast.to(room).emit('player_left', {status: 'Player disconnected', player: socket.player});
-
-			var match_id = sockets_list[socket.player.id].match_id;
-			console.log(match_id);
-			//var match = match_list[match_id].end();
+			console.log(room);
 		}
 	});
 
@@ -129,7 +129,9 @@ io.sockets.on('connection', function(socket){
 	socket.on('get_questions', function (req, callback) {
 		var returnObj = new Object();
 		returnObj.success = true;
-		var player_match_id = socket.player.match_id;
+		var a = socket;
+		var b = socket.player;
+		var player_match_id = socket.player.getMatchId();
 
 		var matchObj = match_pool[player_match_id];
 		returnObj.questions = matchObj.getAllQuestions();
@@ -141,7 +143,7 @@ io.sockets.on('connection', function(socket){
 	socket.on('check_answer', function(req, callback){
 		var returnObj = new Object();
 		returnObj.success = true;
-		var player_match_id = socket.player.match_id;
+		var player_match_id = socket.player.getMatchId();
 
 		var matchObj = match_pool[player_match_id];
 		returnObj.answer_result = matchObj.checkAnswer(req.round, req.chosen);
@@ -155,4 +157,8 @@ io.sockets.on('connection', function(socket){
 		callback(returnObj);
 	});
 
-});
+}); // connection
+
+
+
+// socket.player = PLAYER 
