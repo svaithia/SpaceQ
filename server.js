@@ -65,8 +65,8 @@ io.sockets.on('connection', function(socket){
 			}
 			else {
 				var waiting_player = wait_queue.shift();
-				db.getQuestions(function(questions){ //questions format [{id:id, img:url, options:[option1, option2, option3, option4] X 5]
-					match_pool[matchCounter] = new match.Match(waiting_player, new_player, questions, function(){
+				db.getQuestions(function(questions, answers){ //questions format [{id:id, img:url, options:[option1, option2, option3, option4] X 5]
+					match_pool[matchCounter] = new match.Match(waiting_player, new_player, questions, answers, function(){
 						delete match_pool[match];
 				 	});
 					console.log(questions);
@@ -135,6 +135,23 @@ io.sockets.on('connection', function(socket){
 		returnObj.questions = matchObj.getAllQuestions();
 		socket.broadcast.to(player_match_id).emit('get_questions_result', {questions: returnObj.questions});
 
+		callback(returnObj);
+	});
+
+	socket.on('check_answer', function(req, callback){
+		var returnObj = new Object();
+		returnObj.success = true;
+		var player_match_id = socket.player.match_id;
+
+		var matchObj = match_pool[player_match_id];
+		returnObj.answer_result = matchObj.checkAnswer(req.round, req.chosen);
+		returnObj.answer_list = matchObj.getAnswers();
+		if(returnObj.answer_result){
+			// increment game score for player based on time
+
+		} else {
+
+		}
 		callback(returnObj);
 	});
 

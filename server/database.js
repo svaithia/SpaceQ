@@ -50,14 +50,23 @@ function database(){
 						    qs.push(items[0]);
 						    questionsCounter = questionsCounter + 1;
 						    if(questionsCounter == 20){
-									var questions = [
-										{id: qs[0].id, img: qs[0].img, options:[ qs[0].answer, qs[5].answer, qs[6].answer, qs[7].answer ]},
-										{id: qs[1].id, img: qs[1].img, options:[ qs[1].answer, qs[8].answer, qs[9].answer, qs[10].answer ]},
-										{id: qs[2].id, img: qs[2].img, options:[ qs[2].answer, qs[11].answer, qs[12].answer, qs[13].answer ]},
-										{id: qs[3].id, img: qs[3].img, options:[ qs[3].answer, qs[14].answer, qs[15].answer, qs[16].answer ]},
-										{id: qs[4].id, img: qs[4].img, options:[ qs[4].answer, qs[17].answer, qs[18].answer, qs[19].answer ]}
-										];
-									callback(questions);
+						    	var option_0 = [ qs[0].answer, qs[5].answer, qs[6].answer, qs[7].answer ];
+						    	var option_1 = [ qs[1].answer, qs[8].answer, qs[9].answer, qs[10].answer ];
+						    	var option_2 = [ qs[2].answer, qs[11].answer, qs[12].answer, qs[13].answer ];
+						    	var option_3 = [ qs[3].answer, qs[14].answer, qs[15].answer, qs[16].answer ];
+						    	var option_4 = [ qs[4].answer, qs[17].answer, qs[18].answer, qs[19].answer ];
+
+								var answers = [qs[0].answer, qs[1].answer, qs[2].answer, qs[3].answer, qs[4].answer];
+
+								var questions = [
+									{id: qs[0].id, img: qs[0].img, options:shuffle(option_0)},
+									{id: qs[1].id, img: qs[1].img, options:shuffle(option_1)},
+									{id: qs[2].id, img: qs[2].img, options:shuffle(option_2)},
+									{id: qs[3].id, img: qs[3].img, options:shuffle(option_3)},
+									{id: qs[4].id, img: qs[4].img, options:shuffle(option_4)}
+								];
+
+								callback(questions, answers);
 						    }
 						});//end of collection.find
 					}//end of for loop
@@ -88,5 +97,10 @@ function database(){
 
 	return object;
 }//end of function database()
+
+function shuffle(o){ //v1.0
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+};
 
 module.exports = database();

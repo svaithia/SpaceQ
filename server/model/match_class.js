@@ -1,10 +1,11 @@
 module.exports = {
-	Match: function(playerA, playerB, questions, deleteCallback) {
+	Match: function(playerA, playerB, questions, answers, deleteCallback) {
 		this.pA = playerA; 
 		this.pB = playerB;
 		var questionList = questions; // 5 question elements
-		this.playerAScore = 0;
-		this.playerBScore = 0;
+		var answerList = answers; 
+		var playerAScore = 0;
+		var playerBScore = 0;
 
 		this.start = function(){}; // call progress - create 5 rounds using the questions
 		this.progress = function(){}; // call the five questions
@@ -16,6 +17,13 @@ module.exports = {
 
 		this.getAllQuestions = function(){
 			return questionList;
+		}
+
+		this.checkAnswer = function(round, answer){
+			return answerList[round] == answer;
+		}
+		this.getAnswers = function(){
+			return answerList;
 		}
 
 	}

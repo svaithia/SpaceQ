@@ -32,13 +32,13 @@
 				<div class="answer_container">
 					<div class="answer_row">
 						
-						<button id="ansA" type="button" class="btn btn-success btn-xl custom" ng-click="getAnswer($event)"><div id="answerA">{{question.options[0]}}</div></button>
-						<button id="ansB" type="button" class="btn btn-warning btn-xl custom"><div id="answerB">{{question.options[1]}}</div></button>
+						<button id="ansA" type="button" class="btn btn-success btn-xl custom" ng-click="submitAnswer(question.options[0])"><div id="answerA">{{question.options[0]}}</div></button>
+						<button id="ansB" type="button" class="btn btn-warning btn-xl custom" ng-click="submitAnswer(question.options[1])"><div id="answerB">{{question.options[1]}}</div></button>
 					</div>
 					
 					<div class="answer_row">
-						<button id="ansC" type="button" class="btn btn-danger btn-xl custom"><div id="answerC">{{question.options[2]}}</div></button>
-						<button id="ansD" type="button" class="btn btn-info btn-xl custom"><div id="answerD">{{question.options[3]}}</div></button>
+						<button id="ansC" type="button" class="btn btn-danger btn-xl custom" ng-click="submitAnswer(question.options[2])"><div id="answerC">{{question.options[2]}}</div></button>
+						<button id="ansD" type="button" class="btn btn-info btn-xl custom" ng-click="submitAnswer(question.options[3])"><div id="answerD">{{question.options[3]}}</div></button>
 					</div>
 				</div>
 

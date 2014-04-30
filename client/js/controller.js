@@ -83,13 +83,6 @@ gameApp.config(function($stateProvider) {
 		})
 });
 
-function getQuestionFromServer(){
-	var params = {};
-	socket.emit('get_questions', params, function(response){
-		console.log(response);
-	});
-}
-
 gameApp.factory('qFactory', function($http) {
 	var factory = {};
 	var params = {};
@@ -169,6 +162,9 @@ gameApp.controller('LoadController', function($scope, $state, qFactory, sharedPr
 			callback('play');
 		}
 	}
+
+
+
 });
 
 gameApp.controller('RoundController', function($scope, $state, sharedProperties){
@@ -210,8 +206,15 @@ gameApp.controller('RoundController', function($scope, $state, sharedProperties)
 		$state.transitionTo('results');
 	}
 
-	$scope.getAnswer = function(clickEvent) {
-		console.log(clickEvent);
+    $scope.submitAnswer=function(chosenAnswer){
+    	var params = {
+			'round': rounds-1,
+			'chosen': chosenAnswer
+		}
+
+		socket.emit('check_answer', params, function(response){
+			console.log(response);
+		});
 	}
 
 	$scope.$watch('$viewContentLoaded', $scope.startRound());
@@ -251,22 +254,20 @@ function startRound() {
 	});
 }
 
-/*var controllers = {};
-controllers.GameController = function ($scope, gameFactory){
-    $scope.question = [];
+// var controllers = {};
+// controllers.GameController = function ($scope, gameFactory){
+//     $scope.question = [];
 
-    init();
+//     init();
 
-    function init() {
-    	$scope.question = gameFactory.getQuestion();
-    	console.log("hi");
-    }
+//     function init() {
+//     	$scope.question = gameFactory.getQuestion();
+//     	console.log("hi");
+//     	alert('sd')
+//     }
 
-/*    $scope.checkAnswer = function () {
-    	$scope.questions.
-    }
-}
-
+// }
+/*
 controllers.ScoreController = function ($scope) {
 	$scope.playerAScore = 0;
 	$scope.playerBScore = 0;
@@ -292,8 +293,4 @@ gameApp.controller('SignInController', function ($scope, cssInjector) {
         cssInjector.add("css/style.css");
     }
 
-});
-
-//gameApp.controller(controllers);*/
-
-
+});/**/
