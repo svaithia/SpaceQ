@@ -21,7 +21,7 @@ function userloggedin(id, username, name){
 }
 
 socket.on('new_player_result', function(data, callback){
-	var current_state = typeof getScope('home') === 'undefined' ? 'wait' : 'home';
+	var current_state = typeof getScope('wait') === 'undefined' ? 'signin' : 'wait';
 	changeState(current_state, 'load');
 });
 
@@ -231,7 +231,7 @@ function changeState(currId, stateName, fn_callback) {
 	scope.$apply(function() {
 		scope.changeState(stateName);
 	});
-
+	
 	if (fn_callback) {
 		fn_callback();
 	}

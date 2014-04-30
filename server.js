@@ -92,8 +92,9 @@ io.sockets.on('connection', function(socket){
 										match_id: new_player.getMatchId(),
 										status: new_player.getStatus()	};
 
-					callback(returnObj); // seperate for db callback
+
 					io.sockets.in(waiting_player.getMatchId()).emit('new_player_result', returnObj);
+					callback(returnObj); // seperate for db callback
 				});
 			}
 			
