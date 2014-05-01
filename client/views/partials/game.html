@@ -3,7 +3,8 @@
 	</div>-->
 	<div id="game">
 		<div class="tHeader" style="padding-left: 240px; font-size: 70px; height: 85px;">SpaceQ</div>
-		<div id="timeTitle">TIMER: -- secs</div>
+		<div id="timeTitle">ROUND: {{ gameInfo.round }} </div>
+		<div id="timeTitle" style="float: right;">TIMER: {{ gameInfo.timeLeft }} s</div>
 		<div class="progress customCountdown">
 			<div class="progress-bar" id="progress" role="progressbar" aria-valuetransitiongoal="100"></div>
 		</div>
@@ -32,7 +33,7 @@
 				<div class="answer_container">
 					<div class="answer_row">
 						
-						<button id="ansA" type="button" class="btn btn-success btn-xl custom" ng-click="submitAnswer(question.options[0])"><div id="answerA">{{question.options[0]}}</div></button>
+						<button id="ansA" type="button" class="btn btn-success btn-xl custom" ng-click="submitAnswer(question.options[0])"><div id="answerA">{{ question.options[0] }}</div></button>
 						<button id="ansB" type="button" class="btn btn-warning btn-xl custom" ng-click="submitAnswer(question.options[1])"><div id="answerB">{{question.options[1]}}</div></button>
 					</div>
 					

@@ -18,8 +18,6 @@ app.use(express.static(path.join(__dirname, 'client')));
 var port = process.env.PORT || 5000;
 server.listen(port, function() {
     console.log("Listening on " + port);
-
-
 });
 
 
@@ -92,8 +90,8 @@ io.sockets.on('connection', function(socket){
 										match_id: new_player.getMatchId(),
 										status: new_player.getStatus()	};
 
-
-					io.sockets.in(waiting_player.getMatchId()).emit('new_player_matched', returnObj);
+					sockets_list[waiting_player.getId()].emit('new_player_matched',  returnObj, function(data){ });
+					// io.sockets.in(waiting_player.getMatchId()).emit('new_player_matched', returnObj);
 					callback(returnObj); // seperate for db callback
 				});
 			}
@@ -127,16 +125,18 @@ io.sockets.on('connection', function(socket){
 	});
 
 
-	socket.on('get_questions', function (req, callback) {
+	socket.on('get_question', function (req, callback) {
 		var returnObj = new Object();
 		returnObj.success = true;
-		var a = socket;
-		var b = socket.player;
 		var player_match_id = socket.player.getMatchId();
-
 		var matchObj = match_pool[player_match_id];
-		returnObj.questions = matchObj.getAllQuestions();
-		socket.broadcast.to(player_match_id).emit('get_questions_result', {questions: returnObj.questions});
+
+		var gameInfo = {
+			round : matchObj.getRound()
+		};
+
+		returnObj.question = matchObj.getQuestion();
+		returnObj.gameInfo = gameInfo;
 
 		callback(returnObj);
 	});

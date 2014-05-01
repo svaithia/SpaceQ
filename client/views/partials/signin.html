@@ -1,4 +1,5 @@
-<div class="container">
+
+<div id="SignInController" class="container">
 	<div class="tHeader" style="padding-left: 240px; font-size: 70px;">SpaceQ</div>
 	<div id="signin" class="main_game">
 		<div class="left"></div>
@@ -11,8 +12,8 @@
 		</style>
 		<div class="middle">
 			<div class="question"><img style="height:700px" id="question" src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/04/International_Space_Station_after_undocking_of_STS-132.jpg/800px-International_Space_Station_after_undocking_of_STS-132.jpg"/>
-				<div id="loginbutton"><fb:login-button class="fb-login-button btn btn-info btn-xl btn-block" show-faces="true" width="200" max-rows="1"></fb:login-button></div>
-				<button id="ansB" type="button" class="btn btn-danger btn-xl btn-block"><div id="answerB">Sign In Using Google+</div></button>
+				<div id="loginbutton"><button ng-click="login_fb()" type="button" class="btn btn-info btn-xl btn-block">Login with Facebook</button></div>
+				<button id="ansB" type="button" class="btn btn-danger btn-xl btn-block"><div id="answerB">Login with Google+</div></button>
 			</div>
 		</div>
 		<div class="right"></div>

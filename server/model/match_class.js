@@ -24,8 +24,8 @@ module.exports = {
 		this.progress = function(){}; // call the five questions
 		this.end =  function(){deleteCallback()}; // update leaderboard - declareWinner - (rematch/find another buttons)
 
-		this.getQuestion = function(round){
-			return questionList[round];
+		this.getQuestion = function(){
+			return questionList[statusObject.round];
 		}
 
 		this.getAllQuestions = function(){
@@ -61,6 +61,10 @@ module.exports = {
 
 		this.incrementRound = function(){
 			return statusObject.round++;
+		}
+
+		this.getRound = function(){
+			return statusObject.round;
 		}
 
 		this.updateScore = function(player, score){

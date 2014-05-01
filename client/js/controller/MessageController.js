@@ -4,7 +4,7 @@ gameApp.controller('MessageController', function($scope, $state){
 		$state.transitionTo(stateName);
 	}
 	$scope.changeMessage = function(msgTitle, mainMessage){
-		$scope.mainMsg = 'ADSDS';
-		$scope.mainCauseMsg = 'sfdsfsdfdsfsdfsd';
+		$scope.mainMsg = msgTitle;
+		$scope.mainCauseMsg = mainMessage;
 	}
 });

@@ -39,7 +39,7 @@ function database(){
 		getQuestions : function(callback){
 				this.getDbConnection(function(db){
 					var min = 1;
-					var max = 714; //number of entries in the database
+					var max = 713; //number of entries in the database
 					qs = new Array();
 			   		var collection = db.collection(questionsCollection);
 					var questionsCounter = 0;

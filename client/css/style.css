@@ -108,6 +108,7 @@ hr {
 #timeTitle {
 	font-weight: bold;
 	font-size: 30px;
+  display:inline;
 }
 
 .main_game{
