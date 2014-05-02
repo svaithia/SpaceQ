@@ -161,9 +161,11 @@ io.sockets.on('connection', function(socket){
 	socket.on('check_answer', function(req, callback){
 		var returnObj = new Object();
 		returnObj.success = true;
-		var player_match_id = socket.player.getMatchId();
-
+		var playerObj = socket.player;
+		var player_match_id = playerObj.getMatchId();
 		var matchObj = match_pool[player_match_id];
+		var opponentObj = matchObj.getOpponent(playerObj); 
+
 		returnObj.answer_result = matchObj.checkAnswer(req.chosen);
 		returnObj.answer_list = matchObj.getAnswers();
 		if(returnObj.answer_result){
@@ -172,9 +174,32 @@ io.sockets.on('connection', function(socket){
 			var score = t*2;
 			socket.player.updateCumulativeScore(score);
 			returnObj.score = score;
+			matchObj.updateScore(playerObj, 60);
+			var statusObj = matchObj.getStatus();
+
+			if(statusObj.status == 'SCORE_WAITING'){
+				returnObj.status = 'SCORE_WAITING';
+			} else if(statusObj.status = 'ROUND_COMPLETED'){
+				returnObj.status = 'ROUND_COMPLETED';
+				sockets_list[opponentObj.getId()].emit('ROUND_COMPLETED',  returnObj, function(data){ });
+			}
 		} else {
 			returnObj.score = 0;
 		}
+		callback(returnObj);
+	});
+
+	socket.on('start_round', function(req, callback){
+		var returnObj = new Object();
+		returnObj.success = true;
+		// start timer here
+		callback(returnObj);
+	});
+
+	socket.on('end_round', function(req, callback){
+		var returnObj = new Object();
+		returnObj.success = true;
+
 		callback(returnObj);
 	});
 

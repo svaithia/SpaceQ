@@ -38,10 +38,10 @@ module.exports = {
 			return isTimerStarted;
 		}
 
-		this.player0or1 = function(player){
-			if(players[0].a == player){
+		this.player0or1 = function(playerObj){
+			if(players[0].player == playerObj){
 				return 0;
-			} else if(players[1].b == player){
+			} else if(players[1].player == playerObj){
 				return 1;
 			} else{
 				return 0;
@@ -80,7 +80,7 @@ module.exports = {
 		}
 
 		this.getStatus = function(){
-			return status;
+			return statusObject;
 		}
 
 		this.incrementRound = function(){
@@ -91,10 +91,11 @@ module.exports = {
 			return statusObject.round;
 		}
 
-		this.updateScore = function(player, score){
-			var idx = player0or1(player);
-			if( idx != -1 && statusObject.scoreSubmitted.indexOf(player) != -1 && statusObject.scoreSubmitted.length < 2){
-				statusObject.scoreSubmitted.push(player);
+		this.updateScore = function(playerObj, score){
+			// player
+			var idx = player0or1(playerObj);
+			if( idx != -1 && statusObject.scoreSubmitted.indexOf(playerObj) != -1 && statusObject.scoreSubmitted.length < 2){
+				statusObject.scoreSubmitted.push(playerObj);
 				players[idx].score += score;
 				var player2submit = 1 - idx;
 				if(statusObject.scoreSubmitted == 1){
@@ -111,6 +112,14 @@ module.exports = {
 
 		this.getScore = function(){
 			return [players[0].score, players[1].score];
+		}
+
+		this.getOpponent = function(playerObj){
+			if(players[0].player == playerObj){
+				return players[1].player;
+			} else {
+				return players[0].player;
+			}
 		}
 
 

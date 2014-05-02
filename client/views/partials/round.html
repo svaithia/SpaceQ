@@ -1,0 +1,77 @@
+	<!--<div class="profileAreaRight">
+		<img id="profilePhoto2" src="http://rlv.zcache.com/basketball_shooter_silhouette_square_sticker-rfaab6535b9cd4426987e91c198b7de19_v9i40_8byvr_512.jpg"></img>
+	</div>-->
+	<div id="game">
+		<div class="tHeader" style="padding-left: 240px; font-size: 70px; height: 85px;">SpaceQ</div>
+		<div id="roundTitle" class="gameTitle">ROUND: {{ gameInfo.round }} </div>
+		<div id="timeTitle" class="gameTitle" style="float: right;">TIMER: {{ gameInfo.timeLeft }} s</div>
+		<div class="progress customCountdown">
+			<div class="progress-bar" id="progress" role="progressbar" aria-valuetransitiongoal="{{ gameInfo.timeLeftPercent }}" style="width:{{ gameInfo.timeLeftPercent }}%"></div>
+		</div>
+		<!--
+		<div class="profileAreaLeft">
+			<img id="profilePhoto1" src="http://4.bp.blogspot.com/-zsbDeAUd8aY/US7F0ta5d9I/AAAAAAAAEKY/UL2AAhHj6J8/s1600/facebook-default-no-profile-pic.jpg"></img>
+		</div>-->
+		<div class="main_game">
+			<div class="left">
+				<div class="timer">
+					<!--<div id="timer_a"></div>-->
+					<div class="progress progress-striped vertical bottom wide active">
+						<div id="score_a" class="progress-bar" role="progressbar" aria-valuetransitiongoal="{{ gameInfo.scoreA }}">
+						</div>
+					</div>
+				</div>
+				<div class="player_container">
+					<div class="score" id="p1">{{ gameInfo.scoreA }}</div>
+				</div>
+			</div>
+
+			<div class="middle">
+				<div class="question"><img id="question" ng-src="{{question.img}}"/></div>
+
+				<br>
+				<div class="answer_container">
+					<div class="answer_row">
+						
+						<button id="ansA" type="button" class="btn btn-success btn-xl custom" ng-click="submitAnswer(question.options[0])"><div id="answerA">{{ question.options[0] }}</div></button>
+						<button id="ansB" type="button" class="btn btn-warning btn-xl custom" ng-click="submitAnswer(question.options[1])"><div id="answerB">{{question.options[1]}}</div></button>
+					</div>
+					
+					<div class="answer_row">
+						<button id="ansC" type="button" class="btn btn-danger btn-xl custom" ng-click="submitAnswer(question.options[2])"><div id="answerC">{{question.options[2]}}</div></button>
+						<button id="ansD" type="button" class="btn btn-info btn-xl custom" ng-click="submitAnswer(question.options[3])"><div id="answerD">{{question.options[3]}}</div></button>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="right">
+				<div class="timer">
+					<div class="progress progress-striped vertical bottom wide active">
+						<div id="score_b" class="progress-bar progress-bar-danger" role="progressbar" aria-valuetransitiongoal="{{ gameInfo.scoreB }}">
+						</div>
+					</div>
+				</div>
+
+
+				<div class="player_container">
+					<div class="score" id="p2">{{ gameInfo.scoreB }}</div>
+				</div>
+		</div>
+	</div>
+	<!-- 
+	<script>
+		$('.progress-bar').progressbar();
+		
+		var a = 0;
+		function fun () {
+			var x = setInterval (function () {
+				a+=2;
+				updateTimer (a, a);
+				if (a == 100) {
+					window.clearInterval (x);
+				}
+			}, 100)
+		}
+		fun ();
+	</script> -->

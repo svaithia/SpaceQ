@@ -1,24 +1,57 @@
-// function getScope(currId) {
-// 	console.log('scope', currId);
-// 	return angular.element(document.getElementById(currId)).scope();
-// 	// return $('.ng-scope').scope();
-// }
-
-// function changeState(currId, stateName, fn_callback) {
-// 	var scope = getScope(currId);
-// 	scope.$apply(function() {
-// 		scope.changeState(stateName);
-
-// 		if (fn_callback) {
-// 			console.log(fn_callback);
-// 			fn_callback();
-// 		}
-// 	});
-// }
-
-// function startRound() {
-// 	var scope = getScope('game');
-// 	scope.$apply(function() {
-// 		scope.startRound();
-// 	});
-// }
+gameApp.config(function($stateProvider) {
+	$stateProvider
+		// state for the home page
+		.state('home', {
+			url: "",
+			controller: 'SignInController',
+			templateUrl: 'views/partials/signin.html',
+			css: '/css/style.css'
+		})
+		// state for the game lobby
+		.state('lobby', {
+			url: "",
+			controller: 'LobbyController',
+			templateUrl: 'views/partials/lobby.html',
+			css: '/css/lobby.css'
+		})
+		.state('load', {
+			url: "",
+			controller: 'LoadController',
+			templateUrl: 'views/partials/load.html',
+			css: '/css/style.css'
+		})		
+		// state for playing the game
+		.state('round', {
+			url: "",
+			controller: 'RoundController',
+			templateUrl: 'views/partials/round.html',
+			css: '/css/style.css'
+		})
+		// ROUND RESULT
+		.state('round_result', {
+			url: "",
+			controller: 'RoundResultController',
+			templateUrl: 'views/partials/round_result.html',
+			css: '/css/style.css'
+		})
+		.state('load_round_result', {
+			url: "",
+			controller: 'RoundResultController',
+			templateUrl: 'views/partials/load_round_result.html',
+			css: '/css/style.css'
+		})
+		// FINAL GAME RESULT
+		.state('results', {
+			url: "",
+			controller: 'ScoreController',
+			templateUrl: 'views/partials/results.html',
+			css: '/css/results.css'
+		})
+		// ERROR / MESSAGE
+		.state('message', {
+			url: "",
+			controller: 'MessageController',
+			templateUrl: 'views/partials/message.html',
+			css: '/css/style.css'
+		})
+});
