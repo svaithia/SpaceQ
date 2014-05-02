@@ -150,11 +150,6 @@ io.sockets.on('connection', function(socket){
 
 		returnObj.question = matchObj.getQuestion();
 		returnObj.gameInfo = gameInfo;
-
-		if (!matchObj.getIsTimerStarted()) {
-			matchObj.startRound();
-		}
-
 		callback(returnObj);
 	});
 
@@ -172,14 +167,15 @@ io.sockets.on('connection', function(socket){
 			// increment game score for player based on time
 			var t = matchObj.getTime();
 			var score = t*2;
-			socket.player.updateCumulativeScore(score);
+			playerObj.updateCumulativeScore(score);
 			returnObj.score = score;
 			matchObj.updateScore(playerObj, 60);
 			var statusObj = matchObj.getStatus();
 
 			if(statusObj.status == 'SCORE_WAITING'){
 				returnObj.status = 'SCORE_WAITING';
-			} else if(statusObj.status = 'ROUND_COMPLETED'){
+			} else if(statusObj.status == 'ROUND_COMPLETED'){
+				matchObj.incrementRound();
 				returnObj.status = 'ROUND_COMPLETED';
 				sockets_list[opponentObj.getId()].emit('ROUND_COMPLETED',  returnObj, function(data){ });
 			}
@@ -192,14 +188,41 @@ io.sockets.on('connection', function(socket){
 	socket.on('start_round', function(req, callback){
 		var returnObj = new Object();
 		returnObj.success = true;
-		// start timer here
+		var player_match_id = socket.player.getMatchId();
+		var matchObj = match_pool[player_match_id];
+
+		returnObj.timerAlreadyStarted = matchObj.getIsTimerStarted();
+
+		if (!returnObj.timerAlreadyStarted) {
+			matchObj.startRound();
+		}
+
 		callback(returnObj);
 	});
 
 	socket.on('end_round', function(req, callback){
 		var returnObj = new Object();
 		returnObj.success = true;
+		var player_match_id = socket.player.getMatchId();
+		var matchObj = match_pool[player_match_id];
+		returnObj.question = matchObj.getPreviousQuestion();
 
+
+		var playerIdx = matchObj.player0or1(socket.player);
+		var gameInfo = {
+			round : matchObj.getRound()
+		};
+
+		var score = matchObj.getScore();
+		if(playerIdx == 0){
+			gameInfo.scoreA = score[0];
+			gameInfo.scoreB = score[1];
+		} else if(playerIdx == 1){
+			gameInfo.scoreA = score[1];
+			gameInfo.scoreB = score[0];
+		}
+
+		returnObj.gameInfo = gameInfo;
 		callback(returnObj);
 	});
 

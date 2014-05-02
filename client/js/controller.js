@@ -36,14 +36,14 @@ gameApp.config(function($stateProvider) {
 		})
 		.state('load_round_result', {
 			url: "",
-			controller: 'RoundResultController',
+			controller: 'LoadRoundResultController',
 			templateUrl: 'views/partials/load_round_result.html',
 			css: '/css/style.css'
 		})
 		// FINAL GAME RESULT
-		.state('results', {
+		.state('game_results', {
 			url: "",
-			controller: 'ScoreController',
+			controller: 'GameResultsController',
 			templateUrl: 'views/partials/results.html',
 			css: '/css/results.css'
 		})

@@ -52,6 +52,10 @@ module.exports = {
 			return questionList[statusObject.round];
 		}
 
+		this.getPreviousQuestion = function(){
+			return questionList[statusObject.round-1];
+		}
+
 		this.getAllQuestions = function(){
 			return questionList;
 		}
@@ -93,17 +97,17 @@ module.exports = {
 
 		this.updateScore = function(playerObj, score){
 			// player
-			var idx = player0or1(playerObj);
-			if( idx != -1 && statusObject.scoreSubmitted.indexOf(playerObj) != -1 && statusObject.scoreSubmitted.length < 2){
+			var idx = this.player0or1(playerObj);
+			if( idx != -1 && statusObject.scoreSubmitted.indexOf(playerObj) == -1 && statusObject.scoreSubmitted.length < 2){
 				statusObject.scoreSubmitted.push(playerObj);
 				players[idx].score += score;
 				var player2submit = 1 - idx;
-				if(statusObject.scoreSubmitted == 1){
+				if(statusObject.scoreSubmitted.length == 1){
 					statusObject.status = 'SCORE_WAITING';
 				} else {
 					statusObject.status = 'ROUND_COMPLETED';
 				}
-			} else if(idx == -1 || scoreSubmitted.length >= 2){
+			} else if(idx == -1 || statusObject.scoreSubmitted.length >= 2){
 				console.log("player doesn't believe OR enough scores submitted");
 			} else{
 

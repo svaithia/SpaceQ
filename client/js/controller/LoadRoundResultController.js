@@ -1,8 +1,10 @@
 gameApp.controller('LoadRoundResultController', function($scope, $state, fStatus) {
 	(function(){
+		console.log('LoadRoundResultController');
 		var status = "";
-		if(fStatus.getSelectedAnswer){
-			status = 'You have selected ' + fStatus.getSelectedAnswer;
+		var userSelectedAnswer = fStatus.getSelectedAnswer(); 
+		if(userSelectedAnswer){
+			status = 'You have selected ' + userSelectedAnswer + '.';
 		} else {
 			status = 'You did not select an answer!';
 		}
@@ -12,7 +14,9 @@ gameApp.controller('LoadRoundResultController', function($scope, $state, fStatus
 
 		socket.on('ROUND_COMPLETED', function(req, callback){
 			fStatus.setSelectedAnswer(null);
-			$state.transitionTo('round_result');
+			fStatus.makeRoundResultRequest(function(){
+					$state.transitionTo('round_result');
+			});
 		});
 
 	})();

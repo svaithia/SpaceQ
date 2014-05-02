@@ -13,7 +13,7 @@ gameApp.factory('fStatus',  ["$q", "$window", "$rootScope",
 
     var serverResponseObj = {};
 
-    var selectedAnswer = null;
+    var selectedAnswer = "";
 
     var roundResultResponse = null;
 
@@ -41,8 +41,13 @@ gameApp.factory('fStatus',  ["$q", "$window", "$rootScope",
 			selectedAnswer = answer;
 		},
 
-		makeRoundResultRequest : function(){
-			roundResultResponse = "";
+		makeRoundResultRequest : function(callback){
+			var deferred = $q.defer();
+			var params = { }
+			socket.emit('end_round', params, function(response){
+				roundResultResponse = response;
+				callback(response);
+			});
 		},
 
 		getRoundResultResponse : function(){

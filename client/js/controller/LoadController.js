@@ -3,12 +3,17 @@ gameApp.controller('LoadController', function($scope, $state, fQuestion) {
 		$scope.loadQuestion = 'Matched! Loading questions from the server ... ';
 		fQuestion.makeGetQuestionRequest(function(response){
 			// Delay a couple of seconds
-			var params = {};
-			socket.emit('start_round', params, function(callback){
-				if(callback.success){
-					$state.transitionTo('round');
-				}
-			});
+
+			setTimeout(function(){
+				var params = {};
+				socket.emit('start_round', params, function(callback){
+					console.log('start_round_response', callback);
+					if(callback.success){
+						$state.transitionTo('round');
+					}
+				});
+			}, 2000);
+
 		});
 	})();
 });

@@ -4,22 +4,18 @@ gameApp.controller('RoundController', function($scope, $state, fQuestion, fStatu
 		var question = questionObj.question;
 		console.log(questionObj);
 		var gameInfo = {
-			// round : questionObj.gameInfo.round + 1,
-			timeLeft : "10",
-			timeLeftPercent : "100"//,
-			// scoreA : questionObj.gameInfo.scoreA,
-			// scoreB : questionObj.gameInfo.scoreB
+			round : questionObj.gameInfo.round + 1,
+			timeLeft : 10,
+			timeLeftPercent : 100,
+			scoreA : questionObj.gameInfo.scoreA,
+			scoreB : questionObj.gameInfo.scoreB
 		};
 
 		$scope.question = question;
 		$scope.gameInfo = gameInfo;
 		countdown(function(){
 			// go to end of round
-			var params = {};
-			socket.emit('end_round', params, function(req, callback){
-				// decide which screen to go to
-				fStatus.setSelectedAnswer(null);
-			});
+			$scope.submitAnswer("");
 
 		});
 
@@ -32,8 +28,10 @@ gameApp.controller('RoundController', function($scope, $state, fQuestion, fStatu
 			fStatus.setSelectedAnswer(chosenAnswer);
 			if(response.status == 'SCORE_WAITING'){
 				$state.transitionTo('load_round_result');
-			} else if(response.status = 'ROUND_COMPLETED'){
-				$state.transitionTo('round_result');
+			} else if(response.status == 'ROUND_COMPLETED'){
+				fStatus.makeRoundResultRequest(function(){
+					$state.transitionTo('round_result');
+				});
 			}
 		});
 	};
