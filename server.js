@@ -131,9 +131,20 @@ io.sockets.on('connection', function(socket){
 		var player_match_id = socket.player.getMatchId();
 		var matchObj = match_pool[player_match_id];
 
+		var playerIdx = matchObj.player0or1(socket.player);
+
 		var gameInfo = {
 			round : matchObj.getRound()
 		};
+
+		var score = matchObj.getScore();
+		if(playerIdx == 0){
+			gameInfo.scoreA = score[0];
+			gameInfo.scoreB = score[1];
+		} else if(playerIdx == 1){
+			gameInfo.scoreA = score[1];
+			gameInfo.scoreB = score[0];
+		}
 
 		returnObj.question = matchObj.getQuestion();
 		returnObj.gameInfo = gameInfo;
@@ -147,7 +158,7 @@ io.sockets.on('connection', function(socket){
 		var player_match_id = socket.player.getMatchId();
 
 		var matchObj = match_pool[player_match_id];
-		returnObj.answer_result = matchObj.checkAnswer(req.round, req.chosen);
+		returnObj.answer_result = matchObj.checkAnswer(req.chosen);
 		returnObj.answer_list = matchObj.getAnswers();
 		if(returnObj.answer_result){
 			// increment game score for player based on time

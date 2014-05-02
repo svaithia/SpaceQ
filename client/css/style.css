@@ -105,7 +105,7 @@ hr {
   width:10%;
 }
 
-#timeTitle {
+.gameTitle {
 	font-weight: bold;
 	font-size: 30px;
   display:inline;

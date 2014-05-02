@@ -11,9 +11,19 @@ gameApp.controller('LoadController', function($scope, $state, fQuestion) {
 	(function(){
 		$scope.loadQuestion = 'Matched! Loading questions from the server ... ';
 		fQuestion.getQuestionFromServer(function(response){
-			$state.transitionTo('play');
+			// Delay a couple of seconds
+			
+/* TODO*/
+			// socket.emit('start_round', function(data, callback){
+				// if(callback.success){
+					$state.transitionTo('play');
+				// }
+			// });
+
 		});
+
 	})();
+});
 
 	// socket.on('get_questions_result', function(data, callback) {
 	// 	$scope.setQuestions(data.questions, function(stateName) {
@@ -33,7 +43,6 @@ gameApp.controller('LoadController', function($scope, $state, fQuestion) {
 	// 		callback('play');
 	// 	}
 	// }
-});
 
 gameApp.factory('fQuestion',  ["$q", "$window", "$rootScope",
     function($q, $window, $rootScope) {
@@ -48,22 +57,22 @@ gameApp.factory('fQuestion',  ["$q", "$window", "$rootScope",
 		    });
 	    };
 
-	    var serverResponseObj = {};
-		return {
-			getQuestionFromServer: function(callback){
-				var deferred = $q.defer();
-				var params = {};
-				socket.emit('get_question', params, function(response){
-					deferred.resolve(response);
-					serverResponseObj = response;
-					callback(response);
-				});
-			},
-			getServerResponse : function(){
-				return serverResponseObj;
-			}
-		};
-	}]);
+    var serverResponseObj = {};
+	return {
+		getQuestionFromServer: function(callback){
+			var deferred = $q.defer();
+			var params = {};
+			socket.emit('get_question', params, function(response){
+				deferred.resolve(response);
+				serverResponseObj = response;
+				callback(response);
+			});
+		},
+		getServerResponse : function(){
+			return serverResponseObj;
+		}
+	};
+}]);
 
 // gameApp.factory('fQuestion', function($http) {
 // 	var factory = {};

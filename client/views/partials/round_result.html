@@ -1,0 +1,54 @@
+<script language='javascript'>
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+    	hash = hashes[i].split('=');
+    	vars.push(hash[0]);
+    	vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
+/*	x[0] = the string "a"
+	x[1] = the string "b"
+	x[x[0]] = the value of "a" (score of a)
+	x[x[1]] = the value of "b" (score of b)*/
+</script>
+
+<div id="resultscontainer" >
+	<div id="winHeader"></div>
+	<br>
+	<br>
+	<div id="playerInfoContainer">
+		<div id="player1Side">
+			<div class="name">Player1</div>
+			<div class="score" id="1"></div>
+		</div>
+		<div id="player2Side">
+			<div class="name">Player2</div>
+			<div class="score" id="2"></div>
+		</div>
+	</div>
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<div id="playAgain">
+		<button type="button" class="btn btn-info btn-xl">Play again?</button>
+	</div>
+</div>
+<script>
+function whoWins () {
+	var x = getUrlVars ();
+	if (parseInt (x[x[0]]) > parseInt (x[x[1]])) {
+		$('#winHeader').html ('A wins! Score: ' + x[x[0]]);
+	} else if (parseInt (x[x[1]]) > parseInt (x[x[0]])) {
+		$('#winHeader').html ('B wins! Score: ' + x[x[1]]);
+	} else {
+		$("#winHeader").html ("It's a tie!");
+	}
+	$('#1').html (x[x[0]]);
+	$('#2').html (x[x[1]]);
+}
+whoWins ();
+</script>

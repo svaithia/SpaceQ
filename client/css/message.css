@@ -1,0 +1,27 @@
+body {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  background: #faf8ef;
+  background-repeat: no-repeat;
+  color: #DFFFFF;
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px;
+}
+
+.error {
+  background-image: url('http://www.hdwallpapers.in/walls/fantasy_space-wide.jpg');
+}
+
+#mainMsg {
+	text-align: center;
+	padding-top: 180px;
+	font-size: 100px;
+	font-weight: bold;
+}
+
+#causeMsg {
+	text-align: center;
+	font-size 50px;
+	font-weight: bold;
+}

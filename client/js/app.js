@@ -35,6 +35,12 @@ gameApp.config(function($stateProvider) {
 			templateUrl: 'views/partials/game.html',
 			css: '/css/style.css'
 		})
+		.state('round_result', {
+			url: "",
+			controller: 'RoundResultController',
+			templateUrl: 'views/partials/round_result.html',
+			css: '/css/style.css'
+		})
 		// state for after game finish
 		.state('results', {
 			url: "",

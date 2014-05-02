@@ -1,27 +1,80 @@
-gameApp.controller('RoundController', function($scope, $state, fQuestion){
+gameApp.controller('RoundController', function($scope, $state, fQuestion, fStatus){
 	(function(){
 		var questionObj = fQuestion.getServerResponse();
 		var question = questionObj.question;
 		console.log(questionObj);
 		var gameInfo = {
-			round : questionObj.gameInfo.round,
-			timeLeft : "--"
+			round : questionObj.gameInfo.round + 1,
+			timeLeft : "--",
+			timeLeftPercent : "100",
+			scoreA : questionObj.gameInfo.scoreA,
+			scoreB : questionObj.gameInfo.scoreB
 		};
 
-		$scope.question = question;
-		$scope.gameInfo = gameInfo;
+			$scope.question = question;
+			$scope.gameInfo = gameInfo;
+			countdown(function(){
+				// go to end of round
 
+			});
 	})();
 
 	$scope.submitAnswer=function(chosenAnswer){
-		var params = {
-			'chosen': chosenAnswer
-		}
-
-		socket.emit('check_answer', params, function(response){
+		fStatus.submitAnswer(chosenAnswer, function(response){
 			console.log(response);
 		});
 	};
+
+	function countdown(callback) {
+		var bar = document.getElementById('progress'),
+		time = 0, max = 10;
+		int = setInterval(function() {
+			$scope.gameInfo.timeLeftPercent = Math.floor(100 - time++ * max);
+			$scope.gameInfo.timeLeft = max + 1 - time;
+			$('.progress-bar').progressbar();
+			$scope.$apply();
+			if (time - 1 == max) {
+				clearInterval(int);
+				// 600ms - width animation time
+				callback && setTimeout(callback, 600);
+			}
+		}, 1000);
+	}
+});
+
+gameApp.factory('fStatus',  ["$q", "$window", "$rootScope",
+    function($q, $window, $rootScope) {
+    	var resolve = function(errval, retval, deferred) {
+		    $rootScope.$apply(function() {
+		        if (errval) {
+			    	deferred.reject(errval);
+		        } else {
+			   		retval.connected = true;
+		            deferred.resolve(retval);
+		        }
+		    });
+	    };
+
+    var serverResponseObj = {};
+	return {
+		submitAnswer: function(chosenAnswer, callback){
+			var deferred = $q.defer();
+			var params = {
+				'chosen': chosenAnswer
+			}
+			socket.emit('check_answer', params, function(response){
+				deferred.resolve(response);
+				serverResponseObj = response;
+				callback(response);
+			});
+		},
+		getServerResponse : function(){
+			return serverResponseObj;
+		}
+	};
+}]);
+
+
 
 
 // 	var rounds = 0;
@@ -73,5 +126,3 @@ gameApp.controller('RoundController', function($scope, $state, fQuestion){
 // 	}
 
 // 	$scope.$watch('$viewContentLoaded', $scope.startRound());
-
-});

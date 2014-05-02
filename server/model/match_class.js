@@ -4,11 +4,11 @@ module.exports = {
 		var answerList = answers; 
 		var players = [
 			{
-				'a' : playerA,
+				'player' : playerA,
 				'score' : 0
 			},
 			{
-				'b' : playerB,
+				'player' : playerB,
 				'score' : 0
 			}
 		];
@@ -24,6 +24,16 @@ module.exports = {
 		this.progress = function(){}; // call the five questions
 		this.end =  function(){deleteCallback()}; // update leaderboard - declareWinner - (rematch/find another buttons)
 
+		this.player0or1 = function(player){
+			if(players[0].a == player){
+				return 0;
+			} else if(players[1].b == player){
+				return 1;
+			} else{
+				return 0;
+			}
+		}
+
 		this.getQuestion = function(){
 			return questionList[statusObject.round];
 		}
@@ -32,8 +42,8 @@ module.exports = {
 			return questionList;
 		}
 
-		this.checkAnswer = function(round, answer){
-			return answerList[round] == answer;
+		this.checkAnswer = function(answer){
+			return answerList[statusObject.round] == answer;
 		}
 		this.getAnswers = function(){
 			return answerList;
@@ -68,7 +78,7 @@ module.exports = {
 		}
 
 		this.updateScore = function(player, score){
-			var idx = players.indexOf(player);
+			var idx = player0or1(player);
 			if( idx != -1 && statusObject.scoreSubmitted.indexOf(player) != -1 && statusObject.scoreSubmitted.length < 2){
 				statusObject.scoreSubmitted.push(player);
 				players[idx].score += score;
@@ -83,6 +93,10 @@ module.exports = {
 			} else{
 
 			}
+		}
+
+		this.getScore = function(){
+			return [players[0].score, players[1].score];
 		}
 
 
