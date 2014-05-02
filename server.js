@@ -6,7 +6,8 @@ var express = require("express"),
 	server = require('http').createServer(app),
 	io = require('socket.io').listen(server),
 	db = require('./server/database'),
-	R_MATCH = require('./server/model/match_class');
+	R_MATCH = require('./server/model/match_class'),
+	R_TIMER = require('./server/model/timer_class');
 
 app.use(express.static(path.join(__dirname, 'client')));
 
@@ -63,7 +64,8 @@ io.sockets.on('connection', function(socket){
 				db.getQuestions(function(questions, answers){
 				//questions format [{id:id, img:url, options:[option1, option2, option3, option4] X 5]
 
-					var match = new R_MATCH.Match(waiting_player, new_player, questions, answers, function(){
+					var timer = new R_TIMER.Timer();
+					var match = new R_MATCH.Match(waiting_player, new_player, questions, answers, timer, function(){
 						delete match_pool[matchCounter];
 				 	});
 				 	match_pool[matchCounter] = match;
@@ -149,6 +151,10 @@ io.sockets.on('connection', function(socket){
 		returnObj.question = matchObj.getQuestion();
 		returnObj.gameInfo = gameInfo;
 
+		if (!matchObj.getIsTimerStarted()) {
+			matchObj.startRound();
+		}
+
 		callback(returnObj);
 	});
 
@@ -162,9 +168,12 @@ io.sockets.on('connection', function(socket){
 		returnObj.answer_list = matchObj.getAnswers();
 		if(returnObj.answer_result){
 			// increment game score for player based on time
-
+			var t = matchObj.getTime();
+			var score = t*2;
+			socket.player.updateCumulativeScore(score);
+			returnObj.score = score;
 		} else {
-
+			returnObj.score = 0;
 		}
 		callback(returnObj);
 	});

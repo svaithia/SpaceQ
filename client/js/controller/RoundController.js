@@ -63,6 +63,7 @@ gameApp.factory('fStatus',  ["$q", "$window", "$rootScope",
 				'chosen': chosenAnswer
 			}
 			socket.emit('check_answer', params, function(response){
+				console.log(response);
 				deferred.resolve(response);
 				serverResponseObj = response;
 				callback(response);

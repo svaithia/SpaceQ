@@ -1,5 +1,5 @@
 module.exports = {
-	Match: function(playerA, playerB, questions, answers, deleteCallback) {
+	Match: function(playerA, playerB, questions, answers, tmr, deleteCallback) {
 		var questionList = questions; // 5 question elements
 		var answerList = answers; 
 		var players = [
@@ -12,7 +12,8 @@ module.exports = {
 				'score' : 0
 			}
 		];
-
+		var timer = tmr;
+		var isTimerStarted = false;
 
 		var statusObject = {
 			status : "START",
@@ -23,6 +24,19 @@ module.exports = {
 		this.start = function(){}; // call progress - create 5 rounds using the questions
 		this.progress = function(){}; // call the five questions
 		this.end =  function(){deleteCallback()}; // update leaderboard - declareWinner - (rematch/find another buttons)
+
+		this.startRound = function() {
+			timer.countdown();
+			isTimerStarted = true;
+		}
+
+		this.getTime = function() {
+			return timer.getTime();
+		}
+
+		this.getIsTimerStarted = function() {
+			return isTimerStarted;
+		}
 
 		this.player0or1 = function(player){
 			if(players[0].a == player){

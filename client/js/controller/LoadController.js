@@ -63,6 +63,7 @@ gameApp.factory('fQuestion',  ["$q", "$window", "$rootScope",
 			var deferred = $q.defer();
 			var params = {};
 			socket.emit('get_question', params, function(response){
+				console.log(response);
 				deferred.resolve(response);
 				serverResponseObj = response;
 				callback(response);
