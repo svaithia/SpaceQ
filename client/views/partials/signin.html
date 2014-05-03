@@ -1,3 +1,22 @@
+ <script>
+window.fbAsyncInit = function() {
+	FB.init({
+		appId      : '1413205215609148',
+		status     : true, // check login status
+		cookie     : true, // enable cookies to allow the server to access the session
+		xfbml      : true  // parse XFBML
+	});
+};
+
+	// Load the SDK asynchronously
+	(function(d){
+	var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+	if (d.getElementById(id)) {return;}
+	js = d.createElement('script'); js.id = id; js.async = true;
+	js.src = "//connect.facebook.net/en_US/all.js";
+	ref.parentNode.insertBefore(js, ref);
+	}(document));
+</script>
 
 <div id="SignInController" class="container">
 	<div class="tHeader" style="padding-left: 240px; font-size: 70px;">SpaceQ</div>
@@ -19,3 +38,4 @@
 		<div class="right"></div>
 	</div>
 </div>
+

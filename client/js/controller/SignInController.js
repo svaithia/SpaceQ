@@ -1,19 +1,23 @@
 // Signin Screen
 
-gameApp.controller('SignInController', ['$scope', '$state','$location', 'fFacebook',
-    function($scope, $state, $location, fFacebook /*we will write this factory next*/){
+gameApp.controller('SignInController', ['$scope', '$state','$location', 'fFacebook', 'fPlayers', 
+    function($scope, $state, $location, fFacebook, fPlayers){
     
     $scope.login_fb = function(){
-    	// $state.transitionTo('round')
-    	userloggedin('ID'+Math.random(), "U"+Math.random(), "FN"+Math.random());
-    //    Facebook.login().then(function(response){
-    //        // this is where we'll contact backend. for now just log response 
-    //        FB.api('/me', function(userResponse) {
-    //         		console.log(userResponse);
-	//				userloggedin(response.id, response.username, response.first_name);
-    //    		});
+    	var me = {id: 'ID'+Math.random(), username: "U"+Math.random(), name: "FN"+Math.random()}
 
-    //    });
+		fPlayers.setMe(me);
+		userloggedin(me.id, me.username, me.name);
+
+     //   fFacebook.login().then(function(response){
+     //       // this is where we'll contact backend. for now just log response 
+     //       FB.api('/me', function(userResponse) {
+     //        		console.log(userResponse);
+     //        		console.log(JSON.stringify(userResponse));
+					// userloggedin(response.id, response.username, response.first_name);
+     //   		});
+
+     //   });
     }
 
     var userloggedin = function userloggedin(id, username, name){
@@ -27,6 +31,7 @@ gameApp.controller('SignInController', ['$scope', '$state','$location', 'fFacebo
 				}
 				else if(status == 'play'){
 					console.log('GO TO PLAY');
+					fPlayers.setOpponent(response.player);
 					$state.transitionTo('load');
 				}
 			} else {

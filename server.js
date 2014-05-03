@@ -85,7 +85,9 @@ io.sockets.on('connection', function(socket){
 					matchCounter++; // increment match
 
 					returnObj.success = true;
-					returnObj.player = new_player;
+					returnObj.player = {id: waiting_player.getId(), 
+						username: waiting_player.getUsername(), 
+						name: waiting_player.getName() };
 					returnObj.status = new_player.status;
 					returnObj.data = {	playerA: waiting_player,
 										playerB: new_player,
@@ -162,26 +164,27 @@ io.sockets.on('connection', function(socket){
 		var opponentObj = matchObj.getOpponent(playerObj); 
 
 		returnObj.answer_result = matchObj.checkAnswer(req.chosen);
-		returnObj.answer_list = matchObj.getAnswers();
 		if(returnObj.answer_result){
 			// increment game score for player based on time
 			var t = matchObj.getTime();
 			var score = t*2;
 			playerObj.updateCumulativeScore(score);
 			returnObj.score = score;
-			matchObj.updateScore(playerObj, 60);
-			var statusObj = matchObj.getStatus();
-
-			if(statusObj.status == 'SCORE_WAITING'){
-				returnObj.status = 'SCORE_WAITING';
-			} else if(statusObj.status == 'ROUND_COMPLETED'){
-				matchObj.incrementRound();
-				returnObj.status = 'ROUND_COMPLETED';
-				sockets_list[opponentObj.getId()].emit('ROUND_COMPLETED',  returnObj, function(data){ });
-			}
+			matchObj.updateScore(playerObj, score);
 		} else {
 			returnObj.score = 0;
+			matchObj.updateScore(playerObj, 0);
 		}
+		var statusObj = matchObj.getStatus();
+
+		if(statusObj.status == 'SCORE_WAITING'){
+			returnObj.status = 'SCORE_WAITING';
+		} else if(statusObj.status == 'ROUND_COMPLETED'){
+			matchObj.incrementRound();
+			returnObj.status = 'ROUND_COMPLETED';
+			sockets_list[opponentObj.getId()].emit('ROUND_COMPLETED',  returnObj, function(data){ });
+		}
+
 		callback(returnObj);
 	});
 
@@ -210,7 +213,7 @@ io.sockets.on('connection', function(socket){
 
 		var playerIdx = matchObj.player0or1(socket.player);
 		var gameInfo = {
-			round : matchObj.getRound()
+			nextRound : matchObj.getRound()
 		};
 
 		var score = matchObj.getScore();
